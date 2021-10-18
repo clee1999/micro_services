@@ -26,12 +26,12 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"street_food_read", "street_food_write", "category_read"})
+     * @Groups({"category_read", "street_food_get", "street_food_write_post"})
      */
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=StreetFood::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=StreetFood::class, mappedBy="category", cascade="persist")
      * @Groups("category_read")
      */
     private $streetFood;
