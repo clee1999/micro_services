@@ -15,10 +15,18 @@ p {
             elevate-on-scroll
             scroll-target="#scrolling-techniques-7"
         >
-            <v-toolbar-title white>DoctoCréneau</v-toolbar-title>
+            <v-toolbar-title white
+                ><router-link to="/">DoctoCréneau</router-link></v-toolbar-title
+            >
 
             <v-spacer></v-spacer>
-            <div class="d-inline-block pl-6"><p>Chercher un médecin</p></div>
+            <div class="d-inline-block pl-6">
+                <p>
+                    <router-link to="/recherche"
+                        >Chercher un médecin</router-link
+                    >
+                </p>
+            </div>
             <div class="d-inline-block pl-6"><p>Besoin d'aide ?</p></div>
             <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
@@ -41,19 +49,18 @@ p {
             </v-menu>
         </v-app-bar>
         <v-container-fluid>
-            <v-main> <HomePage /> </v-main>
+            <v-main> <router-view></router-view></v-main>
         </v-container-fluid>
         <Footer />
     </v-app>
 </template>
 
 <script>
-import HomePage from "./components/HomePage";
 import Footer from "./components/Footer";
 export default {
     name: "App",
 
-    components: { HomePage, Footer },
+    components: { Footer },
 
     data: () => ({
         bg: "transparent",
