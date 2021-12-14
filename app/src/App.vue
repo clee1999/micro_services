@@ -3,18 +3,21 @@ p {
     font-family: "Nunito-SemiBold" !important;
 }
 
+.v-app-bar {
+    background: #22bff3 !important;
+}
+
 .itemList {
     color: black !important;
+}
+
+a {
+    color: white !important;
 }
 </style>
 <template>
     <v-app>
-        <v-app-bar
-            :color="bg"
-            fixed
-            elevate-on-scroll
-            scroll-target="#scrolling-techniques-7"
-        >
+        <v-app-bar elevate-on-scroll scroll-target="#scrolling-techniques-7">
             <v-toolbar-title white
                 ><router-link to="/">DoctoCréneau</router-link></v-toolbar-title
             >
@@ -27,13 +30,12 @@ p {
                     >
                 </p>
             </div>
-            <div class="d-inline-block pl-6"><p>Besoin d'aide ?</p></div>
             <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
                     <p class="ml-6">
                         <a dark v-bind="attrs" v-on="on">
+                            <v-icon color="white">mdi-account-circle</v-icon>
                             Se connecter
-                            <v-icon color="black">mdi-account-circle</v-icon>
                         </a>
                     </p>
                 </template>
