@@ -1,7 +1,6 @@
 <style scoped lang="scss">
 footer {
     background: #22bff3;
-    padding: 10%;
     .container {
         max-width: 1390px;
     }
@@ -37,9 +36,9 @@ footer {
     <footer>
         <v-container>
             <div class="d-flex justify-space-around mb-6" flat tile>
-                <v-card v-for="n in 3" :key="n" class="pa-2" outlined tile>
-                    justify-center
-                </v-card>
+                <p v-for="n in 1" :key="n" class="pa-2">
+                    DoctoCréneau - Tout droit réservés
+                </p>
             </div>
         </v-container>
     </footer>

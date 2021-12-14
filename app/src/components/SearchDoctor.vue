@@ -1,4 +1,8 @@
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+a {
+    color: white !important;
+}
+</style>
 <template>
     <div>
         <v-container>
@@ -63,7 +67,9 @@
                                         <v-icon color="white"
                                             >mdi-information</v-icon
                                         >
-                                        Prendre rendez-vous
+                                        <router-link to="/docteur">
+                                            Prendre rendez-vous
+                                        </router-link>
                                     </div>
                                 </button>
                                 <v-card-text>
