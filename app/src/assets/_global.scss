@@ -1,0 +1,94 @@
+@import "./_colors.scss";
+@import "./_buttons.scss";
+@import "./_reset.scss";
+@import "./_fonts.scss";
+
+html {
+    height: 100%;
+}
+html,
+body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 18px;
+    font-family: "Nunito-Regular" !important;
+}
+
+.separator {
+    width: 299px;
+    height: 6px;
+    background-color: $VioletPrimary;
+    margin: 28px 0;
+    @media screen and (max-width: 600px) {
+        width: 50%;
+    }
+}
+
+a {
+    font-size: 18px;
+    font-family: "Nunito-Regular";
+}
+
+p {
+    font-size: 18px;
+    font-family: "Nunito-Regular";
+    margin-bottom: 0 !important;
+}
+
+h1 {
+    font-size: 48px;
+    font-family: "Nunito-Black";
+}
+
+h2 {
+    font-size: 36px;
+    font-family: "Nunito-Bold";
+}
+
+h3 {
+    font-size: 24px;
+    font-family: "Nunito-Bold";
+}
+
+h4 {
+    font-size: 20px;
+    font-family: "Nunito-Bold";
+}
+
+section {
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+@media (max-width: 675.98px) {
+    section {
+        margin-top: 5px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    h2 {
+        font-size: 20px !important;
+    }
+
+    h3 {
+        font-size: 30px;
+    }
+
+    h4 {
+        font-size: 26px;
+    }
+}

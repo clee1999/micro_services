@@ -1,0 +1,18 @@
+button.buttonCustom {
+    padding: 10px 24px;
+    border: 0;
+    outline: none !important;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #6b4bfa;
+    border-radius: 14px;
+    transition: 0.3s ease all;
+    width: 250px;
+}
+
+button.buttonCustom:hover {
+    background-color: #543bc5;
+    box-shadow: 0 1px 2px #7d74a7, 0 4px 4px #7d74a7;
+    transform: translateY(-2px);
+}
