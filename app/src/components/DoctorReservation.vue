@@ -2,11 +2,15 @@
 h4 {
     margin-top: 20px !important;
 }
+
+h2 {
+    color: #fa7f57;
+}
 </style>
 <template>
     <div>
         <v-container>
-            <v-card class="mx-auto" max-width="744" outlined>
+            <v-card class="mx-auto" max-width="full" outlined>
                 <v-list-item three-line>
                     <v-list-item-content>
                         <div class="text-overline mb-4">
