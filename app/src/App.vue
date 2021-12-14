@@ -15,7 +15,7 @@ p {
             elevate-on-scroll
             scroll-target="#scrolling-techniques-7"
         >
-            <v-toolbar-title white>L O G O</v-toolbar-title>
+            <v-toolbar-title white>DoctoCréneau</v-toolbar-title>
 
             <v-spacer></v-spacer>
             <div class="d-inline-block pl-6"><p>Chercher un médecin</p></div>
