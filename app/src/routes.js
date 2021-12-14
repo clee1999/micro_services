@@ -1,3 +1,3 @@
-// import HomePage from "./components/HomePage.vue";
+import HomePage from "./components/HomePage.vue";
 
-// export default [{ path: "/", component: HomePage }];
+export default [{ path: "/", component: HomePage }];

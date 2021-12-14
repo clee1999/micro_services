@@ -3,9 +3,6 @@ p {
     font-family: "Nunito-SemiBold" !important;
 }
 
-a {
-}
-
 .itemList {
     color: black !important;
 }
@@ -44,16 +41,19 @@ a {
             </v-menu>
         </v-app-bar>
         <v-container-fluid>
-            <v-main> </v-main>
+            <v-main> <HomePage /> </v-main>
         </v-container-fluid>
+        <Footer />
     </v-app>
 </template>
 
 <script>
+import HomePage from "./components/HomePage";
+import Footer from "./components/Footer";
 export default {
     name: "App",
 
-    components: {},
+    components: { HomePage, Footer },
 
     data: () => ({
         bg: "transparent",
@@ -76,9 +76,9 @@ export default {
                 document.body.scrollTop > 100 ||
                 document.documentElement.scrollTop > 100
             ) {
-                this.bg = "#1A0A61";
+                this.bg = "#B9E9F9";
             } else {
-                this.bg = "#1A0A61";
+                this.bg = "#B9E9F9";
             }
         },
     },
