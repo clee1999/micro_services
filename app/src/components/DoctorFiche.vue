@@ -6,10 +6,14 @@ h4 {
 h2 {
     color: #fa7f57;
 }
+
+a {
+    color: white !important;
+}
 </style>
 <template>
     <div>
-        <v-container>
+        <v-container style="height: 100vh">
             <v-card class="mx-auto" max-width="full" outlined>
                 <v-list-item three-line>
                     <v-list-item-content>
@@ -35,40 +39,14 @@ h2 {
                     ></v-list-item-avatar>
                 </v-list-item>
             </v-card>
-
             <v-row class="text-center mt-10">
                 <v-col cols="12">
-                    <h2>Choisir son créneau de consultation :</h2>
-                </v-col>
-            </v-row>
-            <template>
-                <v-row>
-                    <v-col>
-                        <v-sheet height="400">
-                            <v-calendar color="primary" type="day">
-                                <template v-slot:day-header="{ present }">
-                                    <template
-                                        v-if="present"
-                                        class="text-center"
-                                    >
-                                        Today
-                                    </template>
-                                </template>
-
-                                <template v-slot:interval="{ hour }">
-                                    <div class="text-center">
-                                        {{ hour }} o'clock
-                                    </div>
-                                </template>
-                            </v-calendar>
-                        </v-sheet>
-                    </v-col>
-                </v-row>
-            </template>
-            <v-row class="text-center mt-10">
-                <v-col cols="12">
-                    <button class="buttonCustom">
-                        <div class="height-fix">Valider</div>
+                    <button class="buttonCustom mt-3">
+                        <div class="height-fix">
+                            <router-link to="/reservation">
+                                Prendre rendez-vous avec docteur
+                            </router-link>
+                        </div>
                     </button>
                 </v-col>
             </v-row>
@@ -78,7 +56,7 @@ h2 {
 
 <script>
 export default {
-    name: "DoctorReservation",
+    name: "DoctorFiche",
     data: () => ({
         justify: ["center"],
         card: {
