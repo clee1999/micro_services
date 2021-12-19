@@ -117,7 +117,9 @@
                                         >mdi-calendar-check</v-icon
                                     >
                                     <h2>Votre réservation a été confirmé !</h2>
-                                    <a href="">Voir mes rendez-vous</a>
+                                    <router-link to="/mes-rendez-vous"
+                                        >Voir mes rendez-vous</router-link
+                                    >
                                 </v-col>
                             </v-row>
                         </v-container>
