@@ -1,15 +1,15 @@
 <style scoped>
 p {
-    font-family: "Nunito-SemiBold" !important;
+    font-family: "Nunito-SemiBold", serif !important;
 }
 
-.v-app-bar {
-    background: #22bff3 !important;
-}
+/*.v-app-bar {*/
+/*    background: #22bff3 !important;*/
+/*}*/
 
-.itemList {
-    color: black !important;
-}
+/*.itemList {*/
+/*    color: black !important;*/
+/*}*/
 
 a {
     color: white !important;
@@ -18,59 +18,50 @@ a {
 <template>
     <v-app>
         <v-app-bar elevate-on-scroll scroll-target="#scrolling-techniques-7">
-            <v-toolbar-title white
-                ><router-link to="/">DoctoCréneau</router-link></v-toolbar-title
-            >
+            <v-toolbar-title white>
+                <router-link to="/">DoctoCréneau</router-link>
+            </v-toolbar-title>
 
             <v-spacer></v-spacer>
             <div class="d-inline-block pl-6">
                 <p>
-                    <router-link to="/recherche"
-                        >Chercher un médecin</router-link
-                    >
+                    <router-link to="/recherche">
+                        Chercher un médecin
+                    </router-link>
                 </p>
             </div>
-            <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                    <p class="ml-6">
-                        <a dark v-bind="attrs" v-on="on">
-                            <v-icon color="white">mdi-account-circle</v-icon>
-                            Se connecter
-                        </a>
-                    </p>
-                </template>
-                <v-list>
-                    <v-list-item v-for="(item, index) in items" :key="index">
-                        <v-list-item-title
-                            ><p class="itemList">
-                                {{ item.title }}
-                            </p></v-list-item-title
-                        >
-                    </v-list-item>
-                </v-list>
-            </v-menu>
+            <div class="d-inline-block pl-6">
+                <p>
+                    <router-link to="/login">Se connecter
+                    </router-link>
+                </p>
+            </div>
+
         </v-app-bar>
-        <v-container-fluid>
-            <v-main> <router-view></router-view></v-main>
-        </v-container-fluid>
-        <Footer />
+        <v-container fluid>
+            <v-main>
+                <router-view></router-view>
+            </v-main>
+        </v-container>
+        <Footer/>
     </v-app>
 </template>
 
 <script>
 import Footer from "./components/Footer";
+
 export default {
     name: "App",
 
-    components: { Footer },
+    components: {Footer},
 
     data: () => ({
         bg: "transparent",
         items: [
-            { title: "Click Me" },
-            { title: "Click Me" },
-            { title: "Click Me" },
-            { title: "Click Me 2" },
+            {title: "Click Me"},
+            {title: "Click Me"},
+            {title: "Click Me"},
+            {title: "Click Me 2"},
         ],
     }),
     mounted() {
