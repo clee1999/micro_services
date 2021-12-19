@@ -3,11 +3,13 @@ import SearchDoctor from "./components/SearchDoctor.vue";
 import DoctorFiche from "./components/DoctorFiche.vue";
 import Dashboard from "./components/Admin/Dashboard.vue";
 import StepperReservation from "./components/StepperReservation.vue";
+import MesRendezVous from "./components/MesRendezVous.vue";
 
 export default [
   { path: "/", component: HomePage },
   { path: "/recherche", component: SearchDoctor },
-  { path: "/docteur", component: DoctorFiche }, // TO DO: mettre :id
+  { path: "/docteur", component: DoctorFiche }, // TODO: mettre :id
   { path: "/admin", component: Dashboard },
-  { path: "/reservation", component: StepperReservation }, // TO DO: mettre :id
+  { path: "/reservation", component: StepperReservation }, // TODO: mettre :id
+  { path: "/mes-rendez-vous", component: MesRendezVous },
 ];

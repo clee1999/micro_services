@@ -64,8 +64,8 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="12">
-                                    <!-- TO DO : pour chacun des boutons, href vers les pages de connexion / inscription -->
-                                    <!-- TO DO : Display ces boutons si l'user est un invité, si déjà connecté les masqués -->
+                                    <!-- TODO : pour chacun des boutons, href vers les pages de connexion / inscription -->
+                                    <!-- TODO : Display ces boutons si l'user est un invité, si déjà connecté les masqués -->
                                     <h3>Déjà un compte ?</h3>
                                     <button class="buttonCustom">
                                         <div class="height-fix">
