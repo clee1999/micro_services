@@ -11,22 +11,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     normalizationContext={"groups"={"user:read"}},
- *     denormalizationContext={"groups"={"user:write"}},
  *     collectionOperations={
- *      "get"={},
- *      "post"={},
- *       "create_user"={
- *          "method"="POST",
- *          "path"="/users/create",
- *          "controller"=App\Controller\Api\CreateUser::class
- *       }
- *     },
+ *          "get"={
+ *              "normalization_context"={"groups"={"user_read"}}
+ *          },
+ *          "post"
+ *      },
  *     itemOperations={
- *       "get"={},
- *       "put"={},
- *       "delete"={},
+ *          "get"={
+ *              "normalization_context"={"groups"={"user_details_read"}}
+ *          },
+ *          "put",
+ *          "patch",
+ *          "delete"
  *     }
+
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -36,13 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user_read", "user_details_read"})
      */
     private $email;
 
@@ -54,19 +52,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Groups({"user:write"})
+     *
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user_read", "user_details_read"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user_read", "user_details_read"})
      */
     private $firstname;
 
