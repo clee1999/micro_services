@@ -3,13 +3,13 @@ p {
     font-family: "Nunito-SemiBold", serif !important;
 }
 
-/*.v-app-bar {*/
-/*    background: #22bff3 !important;*/
-/*}*/
+.v-app-bar {
+    background: #22bff3 !important;
+}
 
-/*.itemList {*/
-/*    color: black !important;*/
-/*}*/
+.itemList {
+    color: black !important;
+}
 
 a {
     color: white !important;
@@ -36,8 +36,7 @@ a {
             </div>
             <div class="d-inline-block pl-6">
                 <p>
-                    <router-link to="/login">Se connecter
-                    </router-link>
+                    <router-link to="/login">Se connecter </router-link>
                 </p>
             </div>
             <v-menu offset-y>
@@ -62,12 +61,10 @@ a {
                 </v-list>
             </v-menu>
         </v-app-bar>
-        <v-container fluid>
-            <v-main>
-                <router-view></router-view>
-            </v-main>
-        </v-container>
-        <Footer/>
+        <v-main>
+            <router-view></router-view>
+        </v-main>
+        <Footer />
     </v-app>
 </template>
 
@@ -77,7 +74,7 @@ import Footer from "./components/Footer";
 export default {
     name: "App",
 
-    components: {Footer},
+    components: { Footer },
 
     data: () => ({
         bg: "transparent",
