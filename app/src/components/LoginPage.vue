@@ -86,6 +86,7 @@ export default {
             );
             console.log(response);
             localStorage.setItem("token", response.data.token);
+            this.$store.commit("setAuthentication", true);
             this.$router.push("/mes-rendez-vous");
         },
     },
