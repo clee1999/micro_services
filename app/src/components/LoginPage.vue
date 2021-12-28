@@ -85,6 +85,7 @@ export default {
                 }
             );
             console.log(response);
+            localStorage.setItem("token", response.data.token);
             this.$router.push("/mes-rendez-vous");
         },
     },
