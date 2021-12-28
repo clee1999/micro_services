@@ -83,6 +83,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $city;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $birthday;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -228,6 +233,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?string
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(string $birthday): self
+    {
+        $this->birthday = $birthday;
 
         return $this;
     }
