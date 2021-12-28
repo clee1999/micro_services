@@ -8,7 +8,6 @@
     background-position: center;
     display: flex;
     flex-direction: column;
-
 }
 </style>
 <template>
@@ -21,7 +20,29 @@
                             <h3>- Inscription -</h3>
                         </v-card-title>
                         <v-card-text>
-                            <v-form ref="form">
+                            <form @submit.prevent="handleSubmit">
+                                <v-text-field
+                                    label="Prénom"
+                                    prepend-icon="mdi-account"
+                                    color="black"
+                                    required
+                                    dense
+                                    large
+                                    filled
+                                    rounded
+                                    v-model="firstname"
+                                />
+                                <v-text-field
+                                    label="Nom de famille"
+                                    prepend-icon="mdi-account-circle"
+                                    color="black"
+                                    required
+                                    dense
+                                    large
+                                    filled
+                                    rounded
+                                    v-model="lastname"
+                                />
                                 <v-text-field
                                     label="Email"
                                     placeholder="jean.bernard@mail.com"
@@ -33,59 +54,8 @@
                                     large
                                     filled
                                     rounded
+                                    v-model="email"
                                 />
-                                <v-text-field
-                                    label="Téléphone"
-                                    placeholder=""
-                                    type="email"
-                                    prepend-icon="mdi-phone"
-                                    color="black"
-                                    required
-                                    dense
-                                    large
-                                    filled
-                                    rounded
-                                />
-                                <v-dialog
-                                    ref="dialog"
-                                    v-model="modal"
-                                    :return-value.sync="date"
-                                    persistent
-                                    width="290px"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="date"
-                                            label="Date de naissance"
-                                            prepend-icon="mdi-calendar"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            color="black"
-                                        />
-                                    </template>
-                                    <v-date-picker
-                                        v-model="date"
-                                        scrollable
-                                        color="#fa8d57"
-                                    >
-                                        <v-spacer/>
-                                        <v-btn
-                                            text
-                                            color="#fa8d57"
-                                            @click="modal = false"
-                                        >
-                                            Cancel
-                                        </v-btn>
-                                        <v-btn
-                                            text
-                                            color="#fa8d57"
-                                            @click="$refs.dialog.save(date)"
-                                        >
-                                            OK
-                                        </v-btn>
-                                    </v-date-picker>
-                                </v-dialog>
                                 <v-text-field
                                     label="Mot de passe"
                                     type="password"
@@ -96,28 +66,93 @@
                                     large
                                     filled
                                     rounded
+                                    v-model="password"
                                 />
                                 <v-text-field
-                                    label="Confirmation du mot de passe"
-                                    type="password"
-                                    prepend-icon="mdi-lock"
+                                    label="Téléphone"
+                                    placeholder="tel"
+                                    prepend-icon="mdi-phone"
                                     color="black"
                                     required
                                     dense
                                     large
                                     filled
                                     rounded
+                                    v-model="phone"
+                                />
+                                <v-dialog
+                                    ref="dialog"
+                                    v-model="modal"
+                                    :return-value.sync="birthday"
+                                    persistent
+                                    width="290px"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="birthday"
+                                            label="Date de naissance"
+                                            prepend-icon="mdi-calendar"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            color="black"
+                                        />
+                                    </template>
+                                    <v-date-picker
+                                        v-model="birthday"
+                                        scrollable
+                                        color="#fa8d57"
+                                    >
+                                        <v-spacer />
+                                        <v-btn
+                                            text
+                                            color="#fa8d57"
+                                            @click="modal = false"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                            text
+                                            color="#fa8d57"
+                                            @click="$refs.dialog.save(birthday)"
+                                        >
+                                            OK
+                                        </v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
+                                <v-text-field
+                                    label="Adresse"
+                                    prepend-icon="mdi-home"
+                                    color="black"
+                                    required
+                                    dense
+                                    large
+                                    filled
+                                    rounded
+                                    v-model="address"
+                                />
+                                <v-text-field
+                                    label="Ville"
+                                    prepend-icon="mdi-warehouse"
+                                    color="black"
+                                    required
+                                    dense
+                                    large
+                                    filled
+                                    rounded
+                                    v-model="city"
                                 />
                                 <v-row>
                                     <button class="buttonCustom ml-4 mb-3 mr-6">
                                         S'inscrire
                                     </button>
                                     Déjà un compte ?
-                                    <router-link to="/login" class="ml-2">Connectez vous !</router-link>
+                                    <router-link to="/login" class="ml-2"
+                                        >Connectez vous !</router-link
+                                    >
                                 </v-row>
-                            </v-form>
+                            </form>
                         </v-card-text>
-
                     </v-card>
                 </v-col>
             </v-row>
@@ -125,25 +160,39 @@
     </div>
 </template>
 <script>
+import axios from "axios";
 export default {
-    name: 'RegisterPage',
+    name: "RegisterPage",
     data() {
         return {
-            form: {
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-                phone: '',
-                address: '',
-                city: ''
-            }
-        }
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            birthday: "",
+            phone: "",
+            address: "",
+            city: "",
+        };
     },
     methods: {
-        register() {
-            //
-        }
-    }
-}
+        async handleSubmit() {
+            const response = await axios.post(
+                "http://localhost:8000/api/users",
+                {
+                    firstname: this.firstname,
+                    lastname: this.lastname,
+                    email: this.email,
+                    password: this.password,
+                    birthday: this.birthday,
+                    phone: this.phone,
+                    address: this.address,
+                    city: this.city,
+                }
+            );
+            console.log(response);
+            this.$router.push("/login");
+        },
+    },
+};
 </script>
