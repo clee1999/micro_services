@@ -14,6 +14,10 @@ p {
 a {
     color: white !important;
 }
+
+.v-list a {
+    color: black !important;
+}
 </style>
 <template>
     <v-app>
@@ -36,7 +40,27 @@ a {
                     </router-link>
                 </p>
             </div>
-
+            <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                    <p class="ml-6">
+                        <a dark v-bind="attrs" v-on="on">
+                            <v-icon color="white">mdi-account-circle</v-icon>
+                            Se connecter
+                            <!-- TODO: ajout {{user.name}} quand l'user est connecté-->
+                        </a>
+                    </p>
+                </template>
+                <!-- TODO: Display le drowdown quand on est uniquement connecté -->
+                <v-list>
+                    <v-list-item v-for="(item, index) in items" :key="index">
+                        <v-list-item-title>
+                            <router-link :to="item.link">{{
+                                item.title
+                            }}</router-link>
+                        </v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
         </v-app-bar>
         <v-container fluid>
             <v-main>
@@ -58,10 +82,8 @@ export default {
     data: () => ({
         bg: "transparent",
         items: [
-            {title: "Click Me"},
-            {title: "Click Me"},
-            {title: "Click Me"},
-            {title: "Click Me 2"},
+            { title: "Mes rendez-vous", link: "/mes-rendez-vous" },
+            { title: "Se déconnecter", link: "/" },
         ],
     }),
     mounted() {

@@ -1,13 +1,19 @@
 import HomePage from "./components/HomePage.vue";
 import SearchDoctor from "./components/SearchDoctor.vue";
-import DoctorReservation from "./components/DoctorReservation.vue";
+import DoctorFiche from "./components/DoctorFiche.vue";
+import Dashboard from "./components/Admin/Dashboard.vue";
+import StepperReservation from "./components/StepperReservation.vue";
+import MesRendezVous from "./components/MesRendezVous.vue";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 
 export default [
-  {path: "/", component: HomePage},
-  {path: "/recherche", component: SearchDoctor},
-  {path: "/docteur", component: DoctorReservation},
+  { path: "/", component: HomePage },
+  { path: "/recherche", component: SearchDoctor },
+  { path: "/docteur", component: DoctorFiche }, // TODO: mettre :id
+  { path: "/admin", component: Dashboard },
+  { path: "/reservation", component: StepperReservation }, // TODO: mettre :id
+  { path: "/mes-rendez-vous", component: MesRendezVous },
   {path: "/login", component: LoginPage},
   {path: "/register", component: RegisterPage}
 ];
