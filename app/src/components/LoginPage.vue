@@ -85,6 +85,7 @@ export default {
                 }
             );
             console.log(response);
+            this.$router.push("/mes-rendez-vous");
         },
     },
 };

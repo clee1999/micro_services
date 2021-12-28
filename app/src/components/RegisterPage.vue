@@ -23,7 +23,7 @@
                             <form @submit.prevent="handleSubmit">
                                 <v-text-field
                                     label="Prénom"
-                                    prepend-icon="mdi-lock"
+                                    prepend-icon="mdi-account"
                                     color="black"
                                     required
                                     dense
@@ -34,7 +34,7 @@
                                 />
                                 <v-text-field
                                     label="Nom de famille"
-                                    prepend-icon="mdi-lock"
+                                    prepend-icon="mdi-account-circle"
                                     color="black"
                                     required
                                     dense
@@ -122,7 +122,7 @@
                                 </v-dialog>
                                 <v-text-field
                                     label="Adresse"
-                                    prepend-icon="mdi-lock"
+                                    prepend-icon="mdi-home"
                                     color="black"
                                     required
                                     dense
@@ -133,7 +133,7 @@
                                 />
                                 <v-text-field
                                     label="Ville"
-                                    prepend-icon="mdi-lock"
+                                    prepend-icon="mdi-warehouse"
                                     color="black"
                                     required
                                     dense

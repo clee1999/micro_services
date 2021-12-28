@@ -34,17 +34,12 @@ a {
                     </router-link>
                 </p>
             </div>
-            <div class="d-inline-block pl-6">
-                <p>
-                    <router-link to="/login">Se connecter </router-link>
-                </p>
-            </div>
             <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
                     <p class="ml-6">
                         <a dark v-bind="attrs" v-on="on">
                             <v-icon color="white">mdi-account-circle</v-icon>
-                            Se connecter
+                            <router-link to="/login">Se connecter </router-link>
                             <!-- TODO: ajout {{user.name}} quand l'user est connecté-->
                         </a>
                     </p>
