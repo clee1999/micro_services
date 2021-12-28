@@ -54,7 +54,8 @@
                                     </button>
                                     Pas de compte ?
                                     <router-link to="/register" class="ml-2"
-                                        >Inscrivez-vous !</router-link
+                                    >Inscrivez-vous !
+                                    </router-link
                                     >
                                 </v-row>
                             </form>
@@ -67,25 +68,36 @@
 </template>
 <script>
 import axios from "axios";
+
 export default {
     name: "LoginPage",
     data() {
         return {
             username: "",
             password: "",
+            errors: "",
         };
     },
     methods: {
         async handleSubmit() {
-            const response = await axios.post(
-                "http://localhost:8000/api/login_check",
-                {
-                    username: this.username,
-                    password: this.password,
+            if (this.username && this.password) {
+                try {
+                    const response = await axios.post(
+                        "http://localhost:8000/api/login_check",
+                        {
+                            username: this.username,
+                            password: this.password,
+                        }
+                    );
+                    if (response.data.success) {
+                        this.$router.push("/mes-rendez-vous");
+                    } else {
+                        this.errors = "Oups, vos identifiants sont incorrects !";
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-            );
-            console.log(response);
-            this.$router.push("/mes-rendez-vous");
+            } else (this.errors = "Oups, oubliez pas de remplir tous les champs !");
         },
     },
 };

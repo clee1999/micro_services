@@ -103,7 +103,7 @@
                                         scrollable
                                         color="#fa8d57"
                                     >
-                                        <v-spacer />
+                                        <v-spacer/>
                                         <v-btn
                                             text
                                             color="#fa8d57"
@@ -148,7 +148,8 @@
                                     </button>
                                     Déjà un compte ?
                                     <router-link to="/login" class="ml-2"
-                                        >Connectez vous !</router-link
+                                    >Connectez vous !
+                                    </router-link
                                     >
                                 </v-row>
                             </form>
@@ -161,6 +162,7 @@
 </template>
 <script>
 import axios from "axios";
+
 export default {
     name: "RegisterPage",
     data() {
@@ -173,25 +175,51 @@ export default {
             phone: "",
             address: "",
             city: "",
+            errors: "",
         };
     },
     methods: {
+        validateEmail(email) {
+            let re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        },
         async handleSubmit() {
-            const response = await axios.post(
-                "http://localhost:8000/api/users",
-                {
-                    firstname: this.firstname,
-                    lastname: this.lastname,
-                    email: this.email,
-                    password: this.password,
-                    birthday: this.birthday,
-                    phone: this.phone,
-                    address: this.address,
-                    city: this.city,
+            if (this.firstname === "" || this.lastname === "" || this.email === "" || this.password === "" ||
+                this.birthday === "" || this.phone === "" || this.address === "" || this.city === "") {
+                this.errors = "Veuillez remplir tous les champs";
+            } else {
+                if (!this.validateEmail(this.email)) {
+                    this.errors = "Veuillez entrer une adresse email valide";
+                } else {
+                    if (this.phone.length < 10) {
+                        this.errors = "Veuillez entrer un numéro de téléphone valide";
+                    } else {
+                        try {
+                            const response = await axios.post(
+                                "http://localhost:8000/api/users",
+                                {
+                                    firstname: this.firstname,
+                                    lastname: this.lastname,
+                                    email: this.email,
+                                    password: this.password,
+                                    birthday: this.birthday,
+                                    phone: this.phone,
+                                    address: this.address,
+                                    city: this.city,
+                                }
+                            );
+                            if (response.data.success) {
+                                this.$router.push("/login");
+                            } else {
+                                this.errors = response.data.message;
+                            }
+                        } catch (error) {
+                            this.errors = error.response.data.message;
+                        }
+                    }
+
                 }
-            );
-            console.log(response);
-            this.$router.push("/login");
+            }
         },
     },
 };
