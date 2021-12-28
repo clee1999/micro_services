@@ -4,6 +4,8 @@ import DoctorFiche from "./components/DoctorFiche.vue";
 import Dashboard from "./components/Admin/Dashboard.vue";
 import StepperReservation from "./components/StepperReservation.vue";
 import MesRendezVous from "./components/MesRendezVous.vue";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 
 export default [
   { path: "/", component: HomePage },
@@ -12,4 +14,6 @@ export default [
   { path: "/admin", component: Dashboard },
   { path: "/reservation", component: StepperReservation }, // TODO: mettre :id
   { path: "/mes-rendez-vous", component: MesRendezVous },
+  {path: "/login", component: LoginPage},
+  {path: "/register", component: RegisterPage}
 ];

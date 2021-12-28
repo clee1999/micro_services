@@ -1,6 +1,6 @@
 <style scoped>
 p {
-    font-family: "Nunito-SemiBold" !important;
+    font-family: "Nunito-SemiBold", serif !important;
 }
 
 .v-app-bar {
@@ -22,16 +22,21 @@ a {
 <template>
     <v-app>
         <v-app-bar elevate-on-scroll scroll-target="#scrolling-techniques-7">
-            <v-toolbar-title white
-                ><router-link to="/">DoctoCréneau</router-link></v-toolbar-title
-            >
+            <v-toolbar-title white>
+                <router-link to="/">DoctoCréneau</router-link>
+            </v-toolbar-title>
 
             <v-spacer></v-spacer>
             <div class="d-inline-block pl-6">
                 <p>
-                    <router-link to="/recherche"
-                        >Chercher un médecin</router-link
-                    >
+                    <router-link to="/recherche">
+                        Chercher un médecin
+                    </router-link>
+                </p>
+            </div>
+            <div class="d-inline-block pl-6">
+                <p>
+                    <router-link to="/login">Se connecter </router-link>
                 </p>
             </div>
             <v-menu offset-y>
@@ -56,15 +61,16 @@ a {
                 </v-list>
             </v-menu>
         </v-app-bar>
-        <v-container-fluid>
-            <v-main> <router-view></router-view></v-main>
-        </v-container-fluid>
+        <v-main>
+            <router-view></router-view>
+        </v-main>
         <Footer />
     </v-app>
 </template>
 
 <script>
 import Footer from "./components/Footer";
+
 export default {
     name: "App",
 
