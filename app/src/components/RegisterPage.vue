@@ -142,6 +142,7 @@
                                     rounded
                                     v-model="city"
                                 />
+                                <v-row><p class="red--text">{{ errors }}</p></v-row>
                                 <v-row>
                                     <button class="buttonCustom ml-4 mb-3 mr-6">
                                         S'inscrire

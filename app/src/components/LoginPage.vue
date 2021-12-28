@@ -45,6 +45,7 @@
                                     rounded
                                     v-model="password"
                                 ></v-text-field>
+                                <v-row><p class="red--text">{{ errors }}</p></v-row>
                                 <v-row>
                                     <button
                                         type="submit"
@@ -97,7 +98,9 @@ export default {
                 } catch (error) {
                     console.log(error);
                 }
-            } else (this.errors = "Oups, oubliez pas de remplir tous les champs !");
+            } else {
+                this.errors = "Oups, oubliez pas de remplir tous les champs !"
+            }
         },
     },
 };
