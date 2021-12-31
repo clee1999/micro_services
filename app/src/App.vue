@@ -56,6 +56,13 @@ a {
                             <router-link :to="item.link">{{
                                 item.title
                             }}</router-link>
+                            <p>
+                                <a
+                                    href="javascript:void(0)"
+                                    @click="handleClick()"
+                                    >Se déconnecter</a
+                                >
+                            </p>
                         </v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -80,10 +87,7 @@ export default {
     data: () => ({
         user: null,
         bg: "transparent",
-        items: [
-            { title: "Mes rendez-vous", link: "/mes-rendez-vous" },
-            { title: "Se déconnecter", link: "/" },
-        ],
+        items: [{ title: "Mes rendez-vous", link: "/mes-rendez-vous" }],
     }),
     mounted() {
         window.onscroll = () => {
@@ -100,6 +104,10 @@ export default {
             } else {
                 this.bg = "#B9E9F9";
             }
+        },
+        handleClick() {
+            localStorage.removeItem("token");
+            this.$router.push("/");
         },
     },
     async created() {
