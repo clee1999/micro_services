@@ -4,6 +4,7 @@ import vuetify from "./plugins/vuetify";
 import "./assets/_global.scss";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
+import "./axios";
 
 // Les différents components
 import HomePage from "./components/HomePage.vue";

@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\MeController;
 
 /**
  * @ApiResource(
@@ -15,7 +16,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "get"={
  *              "normalization_context"={"groups"={"user_read"}}
  *          },
- *          "post"
+ *          "post",
+ *          "me"={
+ *               "pagination_enabled"="false","path"="/me","method"="get","controller"=MeController::class,"read":"false"
+ *          }
  *      },
  *     itemOperations={
  *          "get"={

@@ -95,13 +95,10 @@ export default {
             return JSON.parse(jsonPayload);
         },
         async handleSubmit() {
-            const response = await axios.post(
-                "http://localhost:8000/api/login_check",
-                {
-                    username: this.username,
-                    password: this.password,
-                }
-            );
+            const response = await axios.post("login", {
+                username: this.username,
+                password: this.password,
+            });
             console.log(response);
             this.parseJwt(response.data.token);
             localStorage.setItem("token", response.data.token);

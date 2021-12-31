@@ -80,7 +80,6 @@ export default {
     }),
     mounted() {
         window.onscroll = () => {
-            console.log("scrooooolll");
             this.changeColor();
         };
     },
