@@ -63,9 +63,8 @@
                                     </button>
                                     Pas de compte ?
                                     <router-link to="/register" class="ml-2"
-                                    >Inscrivez-vous !
-                                    </router-link
-                                    >
+                                        >Inscrivez-vous !
+                                    </router-link>
                                 </v-row>
                             </form>
                         </v-card-text>
@@ -87,7 +86,7 @@ export default {
             errors: "",
         };
     },
-    methods: {           
+    methods: {
         parseJwt(token) {
             var base64Url = token.split(".")[1];
             var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -107,12 +106,12 @@ export default {
             return JSON.parse(jsonPayload);
         },
         async handleSubmit() {
-        if (this.username && this.password) {
+            if (this.username && this.password) {
                 try {
-                    await axios.post("login", {
-                username: this.username,
-                password: this.password,
-            });
+                    const response = await axios.post("login", {
+                        username: this.username,
+                        password: this.password,
+                    });
                     this.parseJwt(response.data.token);
                     localStorage.setItem("token", response.data.token);
                     this.$store.commit("setAuthentication", true);
@@ -121,7 +120,7 @@ export default {
                     this.errors = "Oups, vos identifiants sont incorrects !";
                 }
             } else {
-                this.errors = "Oups, oubliez pas de remplir tous les champs !"
+                this.errors = "Oups, oubliez pas de remplir tous les champs !";
             }
         },
     },

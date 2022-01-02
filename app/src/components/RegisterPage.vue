@@ -87,7 +87,6 @@
                                     filled
                                     rounded
                                     v-model="phone"
-
                                 />
                                 <v-dialog
                                     ref="dialog"
@@ -112,7 +111,7 @@
                                         scrollable
                                         color="#fa8d57"
                                     >
-                                        <v-spacer/>
+                                        <v-spacer />
                                         <v-btn
                                             text
                                             color="#fa8d57"
@@ -151,16 +150,19 @@
                                     rounded
                                     v-model="city"
                                 />
-                                <v-row><p class="red--text">{{ errors }}</p></v-row>
+                                <v-row
+                                    ><p class="red--text">
+                                        {{ errors }}
+                                    </p></v-row
+                                >
                                 <v-row>
                                     <button class="buttonCustom ml-4 mb-3 mr-6">
                                         S'inscrire
                                     </button>
                                     Déjà un compte ?
                                     <router-link to="/login" class="ml-2"
-                                    >Connectez vous !
-                                    </router-link
-                                    >
+                                        >Connectez vous !
+                                    </router-link>
                                 </v-row>
                             </form>
                         </v-card-text>
@@ -204,6 +206,7 @@ export default {
                         city: this.city,
                     }
                 );
+                this.$router.push("/login");
                 if (response.data.success) {
                     this.$router.push("/login");
                 } else {
@@ -212,7 +215,7 @@ export default {
             } catch (error) {
                 this.errors = error.response.data.message;
             }
-        }
-    }
+        },
+    },
 };
 </script>
