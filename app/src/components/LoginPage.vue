@@ -87,7 +87,7 @@ export default {
             errors: "",
         };
     },
-    methods: {           
+    methods: {
         parseJwt(token) {
             var base64Url = token.split(".")[1];
             var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -107,12 +107,12 @@ export default {
             return JSON.parse(jsonPayload);
         },
         async handleSubmit() {
-        if (this.username && this.password) {
+            if (this.username && this.password) {
                 try {
-                    await axios.post("login", {
-                username: this.username,
-                password: this.password,
-            });
+                    const response = await axios.post("login", {
+                        username: this.username,
+                        password: this.password,
+                    });
                     this.parseJwt(response.data.token);
                     localStorage.setItem("token", response.data.token);
                     this.$store.commit("setAuthentication", true);
