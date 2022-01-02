@@ -87,17 +87,35 @@ export default {
             errors: "",
         };
     },
-    methods: {
+    methods: {           
+        parseJwt(token) {
+            var base64Url = token.split(".")[1];
+            var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+            var jsonPayload = decodeURIComponent(
+                atob(base64)
+                    .split("")
+                    .map(function (c) {
+                        return (
+                            "%" +
+                            ("00" + c.charCodeAt(0).toString(16)).slice(-2)
+                        );
+                    })
+                    .join("")
+            );
+            console.log(JSON.parse(jsonPayload));
+
+            return JSON.parse(jsonPayload);
+        },
         async handleSubmit() {
-            if (this.username && this.password) {
+        if (this.username && this.password) {
                 try {
-                    await axios.post(
-                        "http://localhost:8000/api/login_check",
-                        {
-                            username: this.username,
-                            password: this.password,
-                        }
-                    );
+                    await axios.post("login", {
+                username: this.username,
+                password: this.password,
+            });
+                    this.parseJwt(response.data.token);
+                    localStorage.setItem("token", response.data.token);
+                    this.$store.commit("setAuthentication", true);
                     this.$router.push("/mes-rendez-vous");
                 } catch (error) {
                     this.errors = "Oups, vos identifiants sont incorrects !";

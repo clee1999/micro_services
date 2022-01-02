@@ -38,19 +38,31 @@ a {
                 <template v-slot:activator="{ on, attrs }">
                     <p class="ml-6">
                         <a dark v-bind="attrs" v-on="on">
-                            <v-icon color="white">mdi-account-circle</v-icon>
-                            <router-link to="/login">Se connecter </router-link>
-                            <!-- TODO: ajout {{user.name}} quand l'user est connecté-->
+                            <v-icon v-if="!user" color="white"
+                                >mdi-account-circle</v-icon
+                            >
+                            <router-link v-if="!user" to="/login"
+                                >Se connecter
+                            </router-link>
+                            <p v-if="user">
+                                {{ user.firstname }} {{ user.lastname }} +
+                            </p>
                         </a>
                     </p>
                 </template>
-                <!-- TODO: Display le drowdown quand on est uniquement connecté -->
-                <v-list>
+                <v-list v-if="user">
                     <v-list-item v-for="(item, index) in items" :key="index">
                         <v-list-item-title>
                             <router-link :to="item.link">{{
                                 item.title
                             }}</router-link>
+                            <p>
+                                <a
+                                    href="javascript:void(0)"
+                                    @click="handleClick()"
+                                    >Se déconnecter</a
+                                >
+                            </p>
                         </v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -65,6 +77,7 @@ a {
 
 <script>
 import Footer from "./components/Footer";
+import axios from "axios";
 
 export default {
     name: "App",
@@ -72,15 +85,12 @@ export default {
     components: { Footer },
 
     data: () => ({
+        user: null,
         bg: "transparent",
-        items: [
-            { title: "Mes rendez-vous", link: "/mes-rendez-vous" },
-            { title: "Se déconnecter", link: "/" },
-        ],
+        items: [{ title: "Mes rendez-vous", link: "/mes-rendez-vous" }],
     }),
     mounted() {
         window.onscroll = () => {
-            console.log("scrooooolll");
             this.changeColor();
         };
     },
@@ -95,6 +105,14 @@ export default {
                 this.bg = "#B9E9F9";
             }
         },
+        handleClick() {
+            localStorage.removeItem("token");
+            this.$router.push("/");
+        },
+    },
+    async created() {
+        const response = await axios.get("me");
+        this.user = response.data;
     },
 };
 </script>
