@@ -9,6 +9,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.red--text {
+    color: #f44336 !important;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
 </style>
 <template>
     <div class="bg">
@@ -73,12 +79,15 @@
                                     placeholder="tel"
                                     prepend-icon="mdi-phone"
                                     color="black"
+                                    type="tel"
+                                    pattern="[0-9]{10}"
                                     required
                                     dense
                                     large
                                     filled
                                     rounded
                                     v-model="phone"
+
                                 />
                                 <v-dialog
                                     ref="dialog"
@@ -103,7 +112,7 @@
                                         scrollable
                                         color="#fa8d57"
                                     >
-                                        <v-spacer />
+                                        <v-spacer/>
                                         <v-btn
                                             text
                                             color="#fa8d57"
@@ -142,13 +151,15 @@
                                     rounded
                                     v-model="city"
                                 />
+                                <v-row><p class="red--text">{{ errors }}</p></v-row>
                                 <v-row>
                                     <button class="buttonCustom ml-4 mb-3 mr-6">
                                         S'inscrire
                                     </button>
                                     Déjà un compte ?
                                     <router-link to="/login" class="ml-2"
-                                        >Connectez vous !</router-link
+                                    >Connectez vous !
+                                    </router-link
                                     >
                                 </v-row>
                             </form>
@@ -161,6 +172,7 @@
 </template>
 <script>
 import axios from "axios";
+
 export default {
     name: "RegisterPage",
     data() {
@@ -173,26 +185,34 @@ export default {
             phone: "",
             address: "",
             city: "",
+            errors: "",
         };
     },
     methods: {
         async handleSubmit() {
-            const response = await axios.post(
-                "http://localhost:8000/api/users",
-                {
-                    firstname: this.firstname,
-                    lastname: this.lastname,
-                    email: this.email,
-                    password: this.password,
-                    birthday: this.birthday,
-                    phone: this.phone,
-                    address: this.address,
-                    city: this.city,
+            try {
+                const response = await axios.post(
+                    "http://localhost:8000/api/users",
+                    {
+                        firstname: this.firstname,
+                        lastname: this.lastname,
+                        email: this.email,
+                        password: this.password,
+                        birthday: this.birthday,
+                        phone: this.phone,
+                        address: this.address,
+                        city: this.city,
+                    }
+                );
+                if (response.data.success) {
+                    this.$router.push("/login");
+                } else {
+                    this.errors = response.data.message;
                 }
-            );
-            console.log(response);
-            this.$router.push("/login");
-        },
-    },
+            } catch (error) {
+                this.errors = error.response.data.message;
+            }
+        }
+    }
 };
 </script>

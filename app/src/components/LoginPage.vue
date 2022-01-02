@@ -8,6 +8,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.red--text {
+    color: #f44336 !important;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
 </style>
 <template>
     <div class="bg">
@@ -26,7 +32,6 @@
                                     type="email"
                                     prepend-icon="mdi-email"
                                     color="black"
-                                    required
                                     dense
                                     large
                                     filled
@@ -38,13 +43,17 @@
                                     type="password"
                                     prepend-icon="mdi-lock"
                                     color="black"
-                                    required
                                     dense
                                     large
                                     filled
                                     rounded
                                     v-model="password"
                                 ></v-text-field>
+                                <v-row>
+                                    <p class="red--text">
+                                        {{ errors }}
+                                    </p>
+                                </v-row>
                                 <v-row>
                                     <button
                                         type="submit"
@@ -54,7 +63,8 @@
                                     </button>
                                     Pas de compte ?
                                     <router-link to="/register" class="ml-2"
-                                        >Inscrivez-vous !</router-link
+                                    >Inscrivez-vous !
+                                    </router-link
                                     >
                                 </v-row>
                             </form>
@@ -67,15 +77,17 @@
 </template>
 <script>
 import axios from "axios";
+
 export default {
     name: "LoginPage",
     data() {
         return {
             username: "",
             password: "",
+            errors: "",
         };
     },
-    methods: {
+    methods: {           
         parseJwt(token) {
             var base64Url = token.split(".")[1];
             var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -95,15 +107,22 @@ export default {
             return JSON.parse(jsonPayload);
         },
         async handleSubmit() {
-            const response = await axios.post("login", {
+        if (this.username && this.password) {
+                try {
+                    await axios.post("login", {
                 username: this.username,
                 password: this.password,
             });
-            console.log(response);
-            this.parseJwt(response.data.token);
-            localStorage.setItem("token", response.data.token);
-            this.$store.commit("setAuthentication", true);
-            this.$router.push("/mes-rendez-vous");
+                    this.parseJwt(response.data.token);
+                    localStorage.setItem("token", response.data.token);
+                    this.$store.commit("setAuthentication", true);
+                    this.$router.push("/mes-rendez-vous");
+                } catch (error) {
+                    this.errors = "Oups, vos identifiants sont incorrects !";
+                }
+            } else {
+                this.errors = "Oups, oubliez pas de remplir tous les champs !"
+            }
         },
     },
 };
