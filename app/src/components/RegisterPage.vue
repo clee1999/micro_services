@@ -9,6 +9,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.red--text {
+    color: #f44336 !important;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
 </style>
 <template>
     <div class="bg">

@@ -8,6 +8,12 @@
     display: flex;
     flex-direction: column;
 }
+
+.red--text {
+    color: #f44336 !important;
+    padding-left: 2rem;
+    padding-bottom: 2rem;
+}
 </style>
 <template>
     <div class="bg">
@@ -43,7 +49,11 @@
                                     rounded
                                     v-model="password"
                                 ></v-text-field>
-                                <v-row><p class="red--text">{{ errors }}</p></v-row>
+                                <v-row>
+                                    <p class="red--text">
+                                        {{ errors }}
+                                    </p>
+                                </v-row>
                                 <v-row>
                                     <button
                                         type="submit"
