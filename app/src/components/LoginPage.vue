@@ -26,7 +26,6 @@
                                     type="email"
                                     prepend-icon="mdi-email"
                                     color="black"
-                                    required
                                     dense
                                     large
                                     filled
@@ -38,7 +37,6 @@
                                     type="password"
                                     prepend-icon="mdi-lock"
                                     color="black"
-                                    required
                                     dense
                                     large
                                     filled
@@ -83,20 +81,16 @@ export default {
         async handleSubmit() {
             if (this.username && this.password) {
                 try {
-                    const response = await axios.post(
+                    await axios.post(
                         "http://localhost:8000/api/login_check",
                         {
                             username: this.username,
                             password: this.password,
                         }
                     );
-                    if (response.data.success) {
-                        this.$router.push("/mes-rendez-vous");
-                    } else {
-                        this.errors = "Oups, vos identifiants sont incorrects !";
-                    }
+                    this.$router.push("/mes-rendez-vous");
                 } catch (error) {
-                    console.log(error);
+                    this.errors = "Oups, vos identifiants sont incorrects !";
                 }
             } else {
                 this.errors = "Oups, oubliez pas de remplir tous les champs !"

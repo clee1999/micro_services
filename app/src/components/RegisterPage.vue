@@ -73,12 +73,15 @@
                                     placeholder="tel"
                                     prepend-icon="mdi-phone"
                                     color="black"
+                                    type="tel"
+                                    pattern="[0-9]{10}"
                                     required
                                     dense
                                     large
                                     filled
                                     rounded
                                     v-model="phone"
+
                                 />
                                 <v-dialog
                                     ref="dialog"
@@ -180,48 +183,30 @@ export default {
         };
     },
     methods: {
-        validateEmail(email) {
-            let re = /\S+@\S+\.\S+/;
-            return re.test(email);
-        },
         async handleSubmit() {
-            if (this.firstname === "" || this.lastname === "" || this.email === "" || this.password === "" ||
-                this.birthday === "" || this.phone === "" || this.address === "" || this.city === "") {
-                this.errors = "Veuillez remplir tous les champs";
-            } else {
-                if (!this.validateEmail(this.email)) {
-                    this.errors = "Veuillez entrer une adresse email valide";
-                } else {
-                    if (this.phone.length < 10) {
-                        this.errors = "Veuillez entrer un numéro de téléphone valide";
-                    } else {
-                        try {
-                            const response = await axios.post(
-                                "http://localhost:8000/api/users",
-                                {
-                                    firstname: this.firstname,
-                                    lastname: this.lastname,
-                                    email: this.email,
-                                    password: this.password,
-                                    birthday: this.birthday,
-                                    phone: this.phone,
-                                    address: this.address,
-                                    city: this.city,
-                                }
-                            );
-                            if (response.data.success) {
-                                this.$router.push("/login");
-                            } else {
-                                this.errors = response.data.message;
-                            }
-                        } catch (error) {
-                            this.errors = error.response.data.message;
-                        }
+            try {
+                const response = await axios.post(
+                    "http://localhost:8000/api/users",
+                    {
+                        firstname: this.firstname,
+                        lastname: this.lastname,
+                        email: this.email,
+                        password: this.password,
+                        birthday: this.birthday,
+                        phone: this.phone,
+                        address: this.address,
+                        city: this.city,
                     }
-
+                );
+                if (response.data.success) {
+                    this.$router.push("/login");
+                } else {
+                    this.errors = response.data.message;
                 }
+            } catch (error) {
+                this.errors = error.response.data.message;
             }
-        },
-    },
+        }
+    }
 };
 </script>
