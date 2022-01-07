@@ -17,6 +17,7 @@
                             <th class="text-left">Nom</th>
                             <th class="text-left">Fonction</th>
                             <th class="text-left">Adresse</th>
+                            <th class="text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +30,9 @@
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
                                 {{ doctor.roles[0] }}
+                            </td>
+                            <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
+                                <a @submit.prevent="remove"> delete</a>
                             </td>
                         </tr>
                     </tbody>
@@ -56,10 +60,8 @@ export default {
             this.doctor = response.data["hydra:member"];
         });
     },
-    // async created() {
-    //     const response = await axios.get("/users");
-    //     this.doctor = response.data;
-    //     console.log(response.data["hydra:member"]);
-    // },
+    async remove() {
+        await axios.delete("/users");
+    },
 };
 </script>

@@ -55,4 +55,4 @@ security:
         - { path: ^/doctor, roles: ROLE_DOCTOR }
         - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods: [PUT, PATCH, DELETE]  }
+        - { path: ^/api/users, roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN], methods: [PUT, PATCH, DELETE]  }
