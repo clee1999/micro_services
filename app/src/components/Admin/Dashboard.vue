@@ -21,10 +21,15 @@
                     </thead>
                     <tbody>
                         <tr :key="index" v-for="(doctor, index) in doctor">
-                            <td>
+                            <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
                                 {{ doctor.lastname }} {{ doctor.firstname }}
                             </td>
-                            <td>{{ doctor.email }}</td>
+                            <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
+                                {{ doctor.email }}
+                            </td>
+                            <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
+                                {{ doctor.roles[0] }}
+                            </td>
                         </tr>
                     </tbody>
                 </template>
