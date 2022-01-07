@@ -29,10 +29,12 @@
                                 {{ doctor.email }}
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
-                                {{ doctor.roles[0] }}
+                                {{ doctor }}
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
-                                <a @submit.prevent="remove"> delete</a>
+                                <button v-on:click="deleteUser(doctor['@id'])">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -55,13 +57,19 @@ export default {
             adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
         },
     }),
-    mounted() {
-        axios.get("/users").then((response) => {
-            this.doctor = response.data["hydra:member"];
-        });
+    methods: {
+        getData() {
+            axios.get("/users").then((response) => {
+                this.doctor = response.data["hydra:member"];
+            });
+        },
+        deleteUser(id) {
+            this.axios.delete("/users" + id);
+            this.getData();
+        },
     },
-    async remove() {
-        await axios.delete("/users");
+    mounted() {
+        this.getData();
     },
 };
 </script>
