@@ -193,19 +193,16 @@ export default {
     methods: {
         async handleSubmit() {
             try {
-                const response = await axios.post(
-                    "http://localhost:8000/api/users",
-                    {
-                        firstname: this.firstname,
-                        lastname: this.lastname,
-                        email: this.email,
-                        password: this.password,
-                        birthday: this.birthday,
-                        phone: this.phone,
-                        address: this.address,
-                        city: this.city,
-                    }
-                );
+                const response = await axios.post("users/create", {
+                    firstname: this.firstname,
+                    lastname: this.lastname,
+                    email: this.email,
+                    password: this.password,
+                    birthday: this.birthday,
+                    phone: this.phone,
+                    address: this.address,
+                    city: this.city,
+                });
                 this.$router.push("/login");
                 if (response.data.success) {
                     this.$router.push("/login");
@@ -216,6 +213,9 @@ export default {
                 this.errors = error.response.data.message;
             }
         },
+    },
+    async created() {
+        delete axios.defaults.headers.common["Authorization"];
     },
 };
 </script>
