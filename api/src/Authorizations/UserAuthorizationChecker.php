@@ -26,11 +26,17 @@ class UserAuthorizationChecker
     public function check(UserInterface $user, string $method): void {
         $this->isAuthenticated();
 
-        if($this->isMethodAllowed($method) && $user->getId() !== $this->user->getId()) {
-            $errorMessage = "C'est pas à toi ça !";
+
+        if ($this->isMethodAllowed($method) && $user->getId() !== $this->user->getId() && !in_array('ROLE_ADMIN', $this->user->getRoles()) ) {
+            $errorMessage = "Ce n'est pas ta ressource !";
+            throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+        } else if($this->isMethodAllowed($method) && !in_array('ROLE_ADMIN', $this->user->getRoles()) && $user->getId() !== $this->user->getId()) {
+            $errorMessage = "t'es pas admin !";
             throw new UnauthorizedHttpException($errorMessage, $errorMessage);
 
         }
+
+
     }
 
     public function isAuthenticated(): void {
