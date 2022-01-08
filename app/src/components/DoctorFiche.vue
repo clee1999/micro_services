@@ -17,19 +17,19 @@ a {
             <v-card class="mx-auto" max-width="full" outlined>
                 <v-list-item three-line>
                     <v-list-item-content>
-                        <div class="text-overline mb-4">
-                            {{ card.fonction }}
-                        </div>
+                        <!-- <div class="text-overline mb-4">
+                            {{ doctor.fonction }} 
+                        </div> -->
                         <v-list-item-title class="text-h5 mb-5">
-                            {{ card.title }}
+                            {{ doctor.firstname }} {{ doctor.lastname }}
                         </v-list-item-title>
-                        <h4>Informations d'accès</h4>
+                        <!--   <h4>Informations d'accès</h4>
                         <p>{{ card.adresse }}</p>
                         <h4>Présentation de l'établissement</h4>
                         <p>{{ card.description }}</p>
                         <h4>Contacts</h4>
                         <p>{{ card.tel }}</p>
-                        <p>{{ card.email }}</p>
+                        <p>{{ card.email }}</p> -->
                     </v-list-item-content>
 
                     <v-list-item-avatar
@@ -55,19 +55,26 @@ a {
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "DoctorFiche",
     data: () => ({
-        justify: ["center"],
-        card: {
-            title: "Dr Ariel COHEN",
-            fonction: "Ophtalmologue",
-            adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            tel: "0121213456",
-            mail: "lded@ffff.fr",
-            description:
-                "Le nouveau centre ophtalmologique Megavision Villepinte, situé au Parc de la Noue (dans la zone commerciale, à droite de la pharmacie), vous accueille du lundi au jeudi de 9h à 19h et le vendredi de 9h à 18h dans une structure moderne et conviviale avec du matériel de pointe.",
-        },
+        doctor: null,
     }),
+    methods: {
+        getData() {
+            const id = this.$route.params.id;
+
+            axios.get(`users/${id}`).then((response) => {
+                this.doctor = response.data;
+            });
+        },
+    },
+    mounted() {
+        this.getData();
+    },
+    async created() {
+        delete axios.defaults.headers.common["Authorization"];
+    },
 };
 </script>

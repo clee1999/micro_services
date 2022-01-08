@@ -124,13 +124,11 @@ export default {
         getData() {
             axios.get("/users").then((response) => {
                 this.doctor = response.data["hydra:member"];
-                console.log(this.doctor);
             });
         },
     },
     mounted() {
         this.getData();
-        console.log(this.doctor);
     },
     async created() {
         delete axios.defaults.headers.common["Authorization"];
