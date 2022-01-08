@@ -14,6 +14,7 @@
                 <template v-slot:default>
                     <thead>
                         <tr>
+                            <th class="text-left">id</th>
                             <th class="text-left">Nom</th>
                             <th class="text-left">Fonction</th>
                             <th class="text-left">Adresse</th>
@@ -23,13 +24,16 @@
                     <tbody>
                         <tr :key="index" v-for="(doctor, index) in doctor">
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
+                                {{ doctor["@id"] | truncate(13) }}
+                            </td>
+                            <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
                                 {{ doctor.lastname }} {{ doctor.firstname }}
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
                                 {{ doctor.email }}
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
-                                {{ doctor }}
+                                {{ doctor["@id"] | truncate(13) }}
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
                                 <button v-on:click="deleteUser(doctor['@id'])">
@@ -64,12 +68,21 @@ export default {
             });
         },
         deleteUser(id) {
-            this.axios.delete("/users" + id);
-            this.getData();
+            axios
+                .delete("http://localhost:8000/api/users/" + id.slice(11, 13))
+                .then(() => {
+                    this.getData();
+                });
         },
     },
     mounted() {
         this.getData();
+    },
+    filters: {
+        truncate(doctor, num) {
+            const reqdString = doctor.split("").slice(11, num).join("");
+            return reqdString;
+        },
     },
 };
 </script>
