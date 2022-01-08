@@ -39,13 +39,17 @@ a {
             </v-row>
         </v-container>
         <v-container>
-            <v-row v-for="j in justify" :key="j" :justify="j">
+            <v-row>
                 <h3 class="text-center">- Les résultats de recherches -</h3>
             </v-row>
 
-            <v-row v-for="j in justify" :key="j" :justify="j">
+            <v-row>
                 <div :key="index" v-for="(doctor, index) in doctor">
-                    <v-card class="mx-auto my-12 mr-5" max-width="374">
+                    <v-card
+                        class="mx-auto my-12 mr-5"
+                        max-width="374"
+                        v-if="doctor.roles[0] == 'ROLE_DOCTOR'"
+                    >
                         <div class="card-group">
                             <div class="text-center">
                                 <v-list-item-avatar
@@ -78,7 +82,11 @@ a {
                                         <v-icon color="white"
                                             >mdi-information</v-icon
                                         >
-                                        <router-link to="/docteur">
+                                        <router-link
+                                            :to="`/docteur/${doctor[
+                                                '@id'
+                                            ].slice(11, 13)} `"
+                                        >
                                             Prendre rendez-vous
                                         </router-link>
                                     </div>
