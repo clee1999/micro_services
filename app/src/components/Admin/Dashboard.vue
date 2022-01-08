@@ -4,10 +4,18 @@
         <v-container style="height: 100vh">
             <v-row>
                 <v-col cols="12">
-                    <h1>Bienvenue {{ admin.name }} administrateur</h1>
+                    <h1>
+                        Bienvenue {{ user.firstname }}
+                        {{ user.lastname }} administrateur
+                    </h1>
                     <h2>Votre dashboard</h2>
                     <h3 class="mt-5">Voici la liste des médecins :</h3>
                 </v-col>
+            </v-row>
+            <v-row>
+                <p class="red--text">
+                    {{ result }}
+                </p>
             </v-row>
 
             <v-simple-table>
@@ -37,7 +45,7 @@
                             </td>
                             <td v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
                                 <button v-on:click="deleteUser(doctor['@id'])">
-                                    Supprimer
+                                    <v-icon color="red">mdi-delete</v-icon>
                                 </button>
                             </td>
                         </tr>
@@ -55,11 +63,8 @@ export default {
     data: () => ({
         justify: ["center"],
         doctor: null,
-        admin: {
-            name: "Dr Ariel COHEN",
-            fonction: "Ophtalmologue",
-            adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-        },
+        user: null,
+        result: "",
     }),
     methods: {
         getData() {
@@ -68,11 +73,10 @@ export default {
             });
         },
         deleteUser(id) {
-            axios
-                .delete("http://localhost:8000/api/users/" + id.slice(11, 13))
-                .then(() => {
-                    this.getData();
-                });
+            axios.delete("/users/" + id.slice(11, 13)).then(() => {
+                this.getData();
+                this.result = "Vous avez supprimé un docteur";
+            });
         },
     },
     mounted() {
@@ -83,6 +87,10 @@ export default {
             const reqdString = doctor.split("").slice(11, num).join("");
             return reqdString;
         },
+    },
+    async created() {
+        const response = await axios.get("me");
+        this.user = response.data;
     },
 };
 </script>
