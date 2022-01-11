@@ -15,6 +15,7 @@ a {
                         rounded
                         dense
                         large
+                        v-model="searchQuery"
                         prepend-icon="mdi-magnify"
                     ></v-text-field>
                 </v-col>
@@ -39,14 +40,17 @@ a {
             </v-row>
         </v-container>
         <v-container>
-            <v-row v-for="j in justify" :key="j" :justify="j">
-                <v-col v-for="k in 1" :key="k" md="12">
-                    <h3 class="text-center">- Les résultats de recherches -</h3>
-                </v-col>
+            <v-row>
+                <h3 class="text-center">- Les résultats de recherches -</h3>
             </v-row>
-            <v-row v-for="j in justify" :key="j" :justify="j">
-                <div v-for="card in cards" :key="card.title">
-                    <v-card class="mx-auto my-12 mr-5" max-width="374">
+
+            <v-row>
+                <div :key="index" v-for="(doctor, index) in resultQuery">
+                    <v-card
+                        class="mx-auto my-12 mr-5"
+                        max-width="374"
+                        v-if="doctor.roles[0] == 'ROLE_DOCTOR'"
+                    >
                         <div class="card-group">
                             <div class="text-center">
                                 <v-list-item-avatar
@@ -59,22 +63,44 @@ a {
                             <div
                                 class="card-main-content rounded-lg text-center pa-4"
                             >
-                                <h3 class="mb-3">{{ card.title }}</h3>
-                                <p>{{ card.fonction }}</p>
-                                <p class="mt-3">{{ card.adresse }}</p>
+                                <h3
+                                    v-if="doctor.roles[0] == 'ROLE_DOCTOR'"
+                                    class="mb-3"
+                                >
+                                    {{ doctor.lastname }} {{ doctor.firstname }}
+                                </h3>
+                                <p v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
+                                    {{ doctor.email }}
+                                </p>
+                                <p
+                                    v-if="doctor.roles[0] == 'ROLE_DOCTOR'"
+                                    class="mt-3"
+                                >
+                                    {{ doctor.email }}
+                                </p>
                                 <button class="buttonCustom mt-3">
                                     <div class="height-fix">
                                         <v-icon color="white"
                                             >mdi-information</v-icon
                                         >
-                                        <router-link to="/docteur">
+                                        <router-link
+                                            :to="`/docteur/${doctor[
+                                                '@id'
+                                            ].slice(11, 13)} `"
+                                        >
                                             Prendre rendez-vous
                                         </router-link>
                                     </div>
                                 </button>
                                 <v-card-text>
                                     <div>
-                                        <p>{{ card.description }}</p>
+                                        <p
+                                            v-if="
+                                                doctor.roles[0] == 'ROLE_DOCTOR'
+                                            "
+                                        >
+                                            {{ doctor.email }}
+                                        </p>
                                     </div>
                                 </v-card-text>
                             </div>
@@ -87,42 +113,46 @@ a {
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "SearchDoctor",
     data: () => ({
         justify: ["center"],
-        cards: [
-            {
-                title: "Dr Ariel COHEN",
-                fonction: "Ophtalmologue",
-                adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            },
-            {
-                title: "Dr Ariel COHEN",
-                fonction: "Ophtalmologue",
-                adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            },
-            {
-                title: "Dr Ariel COHEN",
-                fonction: "Ophtalmologue",
-                adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            },
-            {
-                title: "Dr Ariel COHEN",
-                fonction: "Ophtalmologue",
-                adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            },
-            {
-                title: "Dr Ariel COHEN",
-                fonction: "Ophtalmologue",
-                adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            },
-            {
-                title: "Dr Ariel COHEN",
-                fonction: "Ophtalmologue",
-                adresse: "16 Avenue Anatole France 93600 Aulnay-sous-Bois",
-            },
-        ],
+        user: null,
+        doctor: null,
+        searchQuery: null,
     }),
+    methods: {
+        getData() {
+            axios.get("/users").then((response) => {
+                this.doctor = response.data["hydra:member"];
+            });
+        },
+    },
+    computed: {
+        resultQuery() {
+            if (this.searchQuery) {
+                return this.doctor.filter((item) => {
+                    return this.searchQuery
+                        .toLowerCase()
+                        .split(" ")
+                        .every(
+                            (v) =>
+                                item.lastname.toLowerCase().includes(v) ||
+                                item.firstname.toLowerCase().includes(v)
+                            // TODO : ajout des autres propriétés de Doctor
+                        );
+                });
+            } else {
+                return this.doctor;
+            }
+        },
+    },
+    mounted() {
+        this.getData();
+    },
+    async created() {
+        delete axios.defaults.headers.common["Authorization"];
+    },
 };
 </script>

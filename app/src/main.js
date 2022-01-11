@@ -36,7 +36,7 @@ const router = new VueRouter({
   routes: [
     { path: "/", component: HomePage },
     { path: "/recherche", component: SearchDoctor },
-    { path: "/docteur", component: DoctorFiche }, // TODO: mettre :id
+    { path: "/docteur/:id", component: DoctorFiche, name: "doctor" },
     { path: "/admin", component: Dashboard },
     { path: "/reservation", component: StepperReservation }, // TODO: mettre :id
     {
