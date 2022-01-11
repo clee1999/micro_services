@@ -136,7 +136,12 @@ export default {
                     return this.searchQuery
                         .toLowerCase()
                         .split(" ")
-                        .every((v) => item.firstname.toLowerCase().includes(v));
+                        .every(
+                            (v) =>
+                                item.lastname.toLowerCase().includes(v) ||
+                                item.firstname.toLowerCase().includes(v)
+                            // TODO : ajout des autres propriétés de Doctor
+                        );
                 });
             } else {
                 return this.doctor;
