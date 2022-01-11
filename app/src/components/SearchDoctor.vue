@@ -15,6 +15,7 @@ a {
                         rounded
                         dense
                         large
+                        v-model="searchQuery"
                         prepend-icon="mdi-magnify"
                     ></v-text-field>
                 </v-col>
@@ -44,7 +45,7 @@ a {
             </v-row>
 
             <v-row>
-                <div :key="index" v-for="(doctor, index) in doctor">
+                <div :key="index" v-for="(doctor, index) in resultQuery">
                     <v-card
                         class="mx-auto my-12 mr-5"
                         max-width="374"
@@ -119,12 +120,27 @@ export default {
         justify: ["center"],
         user: null,
         doctor: null,
+        searchQuery: null,
     }),
     methods: {
         getData() {
             axios.get("/users").then((response) => {
                 this.doctor = response.data["hydra:member"];
             });
+        },
+    },
+    computed: {
+        resultQuery() {
+            if (this.searchQuery) {
+                return this.doctor.filter((item) => {
+                    return this.searchQuery
+                        .toLowerCase()
+                        .split(" ")
+                        .every((v) => item.firstname.toLowerCase().includes(v));
+                });
+            } else {
+                return this.doctor;
+            }
         },
     },
     mounted() {
