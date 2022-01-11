@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -92,6 +94,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $birthday;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TimeSlot::class, mappedBy="doctor")
+     */
+    private $timeSlots;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="patient")
+     */
+    private $reservationPatient;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="doctor")
+     */
+    private $doctorReservation;
+
+    public function __construct()
+    {
+        $this->timeSlots = new ArrayCollection();
+        $this->reservationPatient = new ArrayCollection();
+        $this->doctorReservation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -250,6 +274,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(string $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TimeSlot[]
+     */
+    public function getTimeSlots(): Collection
+    {
+        return $this->timeSlots;
+    }
+
+    public function addTimeSlot(TimeSlot $timeSlot): self
+    {
+        if (!$this->timeSlots->contains($timeSlot)) {
+            $this->timeSlots[] = $timeSlot;
+            $timeSlot->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeSlot(TimeSlot $timeSlot): self
+    {
+        if ($this->timeSlots->removeElement($timeSlot)) {
+            // set the owning side to null (unless already changed)
+            if ($timeSlot->getDoctor() === $this) {
+                $timeSlot->setDoctor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservationPatient(): Collection
+    {
+        return $this->reservationPatient;
+    }
+
+    public function addReservationPatient(Reservation $reservationPatient): self
+    {
+        if (!$this->reservationPatient->contains($reservationPatient)) {
+            $this->reservationPatient[] = $reservationPatient;
+            $reservationPatient->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationPatient(Reservation $reservationPatient): self
+    {
+        if ($this->reservationPatient->removeElement($reservationPatient)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationPatient->getPatient() === $this) {
+                $reservationPatient->setPatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getDoctorReservation(): Collection
+    {
+        return $this->doctorReservation;
+    }
+
+    public function addDoctorReservation(Reservation $doctorReservation): self
+    {
+        if (!$this->doctorReservation->contains($doctorReservation)) {
+            $this->doctorReservation[] = $doctorReservation;
+            $doctorReservation->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDoctorReservation(Reservation $doctorReservation): self
+    {
+        if ($this->doctorReservation->removeElement($doctorReservation)) {
+            // set the owning side to null (unless already changed)
+            if ($doctorReservation->getDoctor() === $this) {
+                $doctorReservation->setDoctor(null);
+            }
+        }
 
         return $this;
     }
