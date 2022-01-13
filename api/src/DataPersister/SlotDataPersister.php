@@ -5,9 +5,10 @@ namespace App\DataPersister;
 
 use App\Entity\TimeSlot;
 use Doctrine\ORM\EntityManagerInterface;
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 
 /**
@@ -20,46 +21,73 @@ class SlotDataPersister implements ContextAwareDataPersisterInterface
      */
     private $security;
     private $_entityManager;
+    private $decorated;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        Security $security
+        Security $security,
+        ContextAwareDataPersisterInterface $decorated
     ) {
-               $this->security = $security;
+        $this->decorated = $decorated;
+        $this->security = $security;
         $this->_entityManager = $entityManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof TimeSlot;
+        return $this->decorated->supports($data, $context);
     }
 
-    /**
-     * @param TimeSlot $data
-     */
+
     public function persist($data, array $context = [])
     {
-        if($data instanceof TimeSlot)
+        $st = $data->getSlotStart();
+        $se = $data->getSlotEnd();
+        $interval = $st->diff($se);
+        // $result = $this->decorated->persist($data, $context);
+        if($data instanceof TimeSlot && ($this->security->getUser()->getId() == $data->getDoctor()->getId()))
         {
-            // if($data->getDoctor()->getId() ==  $this->security->getUser()->getId()){
+            foreach($interval as $key=>$val)
+            {
+                if($key != "i" && $val != 0)
+                {
+                    $errorMessage = "Invalid Slots";
+                    throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+                }
+                else if($key == "i" && $val != 30)
+                {
+                    $errorMessage = "Invalid Slots";
+                    throw new UnauthorizedHttpException($errorMessage, $errorMessage);
 
-            // }
+                }
+                else{
+                    $slots = $this->_entityManager->getRepository(TimeSlot::class)->findBy(['doctor' => $this->security->getUser()->getId()]);
+                    foreach($slots as $val)
+                    {
+                        if($st->format('Y-m-d H:i') == $val->getSlotStart()->format('Y-m-d H:i') && $val != $data)
+                        {
+                            $errorMessage = "Slot already set";
+                            throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+                        }
+                    }
+                    $this->_entityManager->persist($data);
+                    $this->_entityManager->flush();
+                }
+            }
+
         }
-       $this->entityManager->persist($data);
-        $this->entityManager->flush();
+        else{
+            $errorMessage = "Access denied";
+            throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+        }
+
 
 
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($data, array $context = [])
+ public function remove($data, array $context = [])
     {
-        $this->_entityManager->remove($data);
-        $this->_entityManager->flush();
+        return $this->decorated->remove($data, $context);
     }
 }
