@@ -5,9 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\TimeSlotRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=TimeSlotRepository::class)
+
+
  */
 #[ApiResource]
 class TimeSlot
@@ -32,6 +36,7 @@ class TimeSlot
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="timeSlots")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("user:read")
      */
     private $doctor;
 
@@ -40,10 +45,6 @@ class TimeSlot
      */
     private $available;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Reservation::class, mappedBy="slot", cascade={"persist", "remove"})
-     */
-    private $reservation;
 
     public function getId(): ?int
     {
@@ -98,20 +99,4 @@ class TimeSlot
         return $this;
     }
 
-    public function getReservation(): ?Reservation
-    {
-        return $this->reservation;
-    }
-
-    public function setReservation(Reservation $reservation): self
-    {
-        // set the owning side of the relation if necessary
-        if ($reservation->getSlot() !== $this) {
-            $reservation->setSlot($this);
-        }
-
-        $this->reservation = $reservation;
-
-        return $this;
-    }
 }
