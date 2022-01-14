@@ -70,13 +70,13 @@ a {
                                     {{ doctor.lastname }} {{ doctor.firstname }}
                                 </h3>
                                 <p v-if="doctor.roles[0] == 'ROLE_DOCTOR'">
-                                    {{ doctor.email }}
+                                    {{ doctor.metier }}
                                 </p>
                                 <p
                                     v-if="doctor.roles[0] == 'ROLE_DOCTOR'"
                                     class="mt-3"
                                 >
-                                    {{ doctor.email }}
+                                    {{ doctor.address }}, {{ doctor.city }}
                                 </p>
                                 <button class="buttonCustom mt-3">
                                     <div class="height-fix">
@@ -92,17 +92,6 @@ a {
                                         </router-link>
                                     </div>
                                 </button>
-                                <v-card-text>
-                                    <div>
-                                        <p
-                                            v-if="
-                                                doctor.roles[0] == 'ROLE_DOCTOR'
-                                            "
-                                        >
-                                            {{ doctor.email }}
-                                        </p>
-                                    </div>
-                                </v-card-text>
                             </div>
                         </div>
                     </v-card>
@@ -126,6 +115,7 @@ export default {
         getData() {
             axios.get("/users").then((response) => {
                 this.doctor = response.data["hydra:member"];
+                console.log(this.doctor);
             });
         },
     },
@@ -140,7 +130,6 @@ export default {
                             (v) =>
                                 item.lastname.toLowerCase().includes(v) ||
                                 item.firstname.toLowerCase().includes(v)
-                            // TODO : ajout des autres propriétés de Doctor
                         );
                 });
             } else {

@@ -82,16 +82,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user_read", "user_details_read"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user_read", "user_details_read"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user_read", "user_details_read"})
      */
     private $birthday;
 
@@ -109,6 +112,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="doctor")
      */
     private $doctorReservation;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user_read", "user_details_read"})
+     */
+    private $metier;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"user_read", "user_details_read"})
+     */
+    private $descriptionDoctor;
 
     public function __construct()
     {
@@ -364,6 +379,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $doctorReservation->setDoctor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMetier(): ?string
+    {
+        return $this->metier;
+    }
+
+    public function setMetier(?string $metier): self
+    {
+        $this->metier = $metier;
+
+        return $this;
+    }
+
+    public function getDescriptionDoctor(): ?string
+    {
+        return $this->descriptionDoctor;
+    }
+
+    public function setDescriptionDoctor(?string $descriptionDoctor): self
+    {
+        $this->descriptionDoctor = $descriptionDoctor;
 
         return $this;
     }
