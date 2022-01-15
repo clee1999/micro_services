@@ -60,10 +60,10 @@ class ReservationDataPersister implements ContextAwareDataPersisterInterface
             }
 
         }
-          else{
-            $errorMessage = "Access denied";
-            throw new UnauthorizedHttpException($errorMessage, $errorMessage);
-        }
+        //   else{
+        //     $errorMessage = "Access denied";
+        //     throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+        // }
         
 
 

@@ -99,16 +99,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $birthday;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\OneToMany(targetEntity=TimeSlot::class, mappedBy="doctor")
      */
     private $timeSlots;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="patient")
      */
     private $reservationPatient;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="doctor")
      */
     private $doctorReservation;

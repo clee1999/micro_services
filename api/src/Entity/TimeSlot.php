@@ -35,7 +35,7 @@ class TimeSlot
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="timeSlots")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups("user:read")
      */
     private $doctor;

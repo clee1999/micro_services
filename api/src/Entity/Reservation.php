@@ -32,13 +32,13 @@ class Reservation
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservationPatient")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $patient;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="doctorReservation")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $doctor;
 
