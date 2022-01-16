@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\MeController;
+use App\Controller\CreateUser;
 
 /**
  * @ApiResource(
@@ -21,6 +22,11 @@ use App\Controller\MeController;
  *          "post",
  *          "me"={
  *               "pagination_enabled"="false","path"="/me","method"="get","controller"=MeController::class,"read":"false"
+ *          },
+ *          "create_user"={
+ *              "method"="POST",
+ *              "path"="/users/create",
+ *              "controller"=App\Controller\CreateUser::class
  *          }
  *      },
  *     itemOperations={
