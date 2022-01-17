@@ -10,6 +10,9 @@ import HomePage from "./components/HomePage.vue";
 import SearchDoctor from "./components/SearchDoctor.vue";
 import DoctorFiche from "./components/DoctorFiche.vue";
 import Dashboard from "./components/Admin/Dashboard.vue";
+import DashboardDoctor from "./components/Doctor/Dashboard.vue";
+import GestionCreneau from "./components/Doctor/GestionCreneau.vue";
+
 import StepperReservation from "./components/StepperReservation.vue";
 import MesRendezVous from "./components/MesRendezVous.vue";
 import LoginPage from "./components/LoginPage";
@@ -25,6 +28,11 @@ const router = new VueRouter({
     { path: "/recherche", component: SearchDoctor },
     { path: "/docteur/:id", component: DoctorFiche, name: "doctor" },
     { path: "/admin", component: Dashboard },
+    {
+      path: "/doctor",
+      component: DashboardDoctor,
+      children: [{ path: "/gerer-creneaux", component: GestionCreneau }],
+    },
     { path: "/reservation", component: StepperReservation }, // TODO: mettre :id
     {
       path: "/mes-rendez-vous",
