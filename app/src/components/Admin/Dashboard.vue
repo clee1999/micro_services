@@ -65,6 +65,7 @@ export default {
         doctor: null,
         user: null,
         result: "",
+        role: null,
     }),
     methods: {
         getData() {
@@ -91,6 +92,13 @@ export default {
     async created() {
         const response = await axios.get("me");
         this.user = response.data;
+    },
+    async beforeCreate() {
+        const response = await axios.get("me");
+        this.role = response.data.roles[0];
+        if (this.role != "ROLE_ADMIN") {
+            this.$router.push("/login");
+        }
     },
 };
 </script>
