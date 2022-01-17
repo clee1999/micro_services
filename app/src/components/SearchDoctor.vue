@@ -27,6 +27,7 @@ a {
                         rounded
                         dense
                         large
+                        v-model="searchAdress"
                         prepend-icon="mdi-map-marker"
                     ></v-text-field>
                 </v-col>
@@ -45,7 +46,7 @@ a {
             </v-row>
 
             <v-row>
-                <div :key="index" v-for="(doctor, index) in resultQuery">
+                <div :key="index" v-for="(doctor, index) in resultQuery, searchAdress">
                     <v-card
                         class="mx-auto my-12 mr-5"
                         max-width="374"
@@ -81,7 +82,8 @@ a {
                                 <button class="buttonCustom mt-3">
                                     <div class="height-fix">
                                         <v-icon color="white"
-                                            >mdi-information</v-icon
+                                        >mdi-information
+                                        </v-icon
                                         >
                                         <router-link
                                             :to="`/docteur/${doctor[
@@ -103,6 +105,7 @@ a {
 
 <script>
 import axios from "axios";
+
 export default {
     name: "SearchDoctor",
     data: () => ({
@@ -110,6 +113,7 @@ export default {
         user: null,
         doctor: null,
         searchQuery: null,
+        searchAdress: null,
     }),
     methods: {
         getData() {
@@ -133,8 +137,22 @@ export default {
                         );
                 });
             } else {
-                return this.doctor;
+                if (this.searchAdress) {
+                    return this.doctor.filter((item) => {
+                        return this.searchAdress
+                            .toLowerCase()
+                            .split(" ")
+                            .every(
+                                (v) =>
+                                    item.address.toLowerCase().includes(v) ||
+                                    item.city.toLowerCase().includes(v)
+                            );
+                    });
+                } else {
+                    return this.doctor;
+                }
             }
+
         },
     },
     mounted() {
