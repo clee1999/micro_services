@@ -32,6 +32,9 @@ a {
                     <router-link to="/recherche">
                         Chercher un médecin
                     </router-link>
+                    <router-link v-if="roleAdmin === 'ROLE_ADMIN'" to="/admin"
+                        >Gérer les médecins
+                    </router-link>
                 </p>
             </div>
             <v-menu offset-y>
@@ -87,6 +90,7 @@ export default {
     data: () => ({
         user: null,
         bg: "transparent",
+        roleAdmin: null,
         items: [{ title: "Mes rendez-vous", link: "/mes-rendez-vous" }],
     }),
     mounted() {
@@ -113,6 +117,7 @@ export default {
     async created() {
         const response = await axios.get("me");
         this.user = response.data;
+        this.roleAdmin = response.data.roles[0];
     },
 };
 </script>
