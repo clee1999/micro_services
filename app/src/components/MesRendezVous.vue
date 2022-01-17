@@ -118,5 +118,10 @@ export default {
             },
         ],
     }),
+    async beforeCreate() {
+        if (localStorage.getItem("token") == null) {
+            this.$router.push("/login");
+        }
+    },
 };
 </script>

@@ -114,7 +114,6 @@ export default {
                     });
                     this.parseJwt(response.data.token);
                     localStorage.setItem("token", response.data.token);
-                    this.$store.commit("setAuthentication", true);
                     this.$router.push("/mes-rendez-vous");
                 } catch (error) {
                     this.errors = "Oups, vos identifiants sont incorrects !";
