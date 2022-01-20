@@ -36,7 +36,7 @@
                                 {{ doctor.patient }}
                             </td>
                             <td>
-                                {{ doctor["@id"] | truncate(13) }}
+                                {{ doctor.slot }}
                             </td>
                             <td>
                                 <button v-on:click="deleteUser(doctor['@id'])">
