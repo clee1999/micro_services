@@ -111,7 +111,7 @@
                                         scrollable
                                         color="#fa8d57"
                                     >
-                                        <v-spacer />
+                                        <v-spacer/>
                                         <v-btn
                                             text
                                             color="#fa8d57"
@@ -151,9 +151,9 @@
                                     v-model="city"
                                 />
                                 <v-row
-                                    ><p class="red--text">
-                                        {{ errors }}
-                                    </p></v-row
+                                ><p class="red--text">
+                                    {{ errors }}
+                                </p></v-row
                                 >
                                 <v-row>
                                     <button class="buttonCustom ml-4 mb-3 mr-6">
@@ -161,7 +161,7 @@
                                     </button>
                                     Déjà un compte ?
                                     <router-link to="/login" class="ml-2"
-                                        >Connectez vous !
+                                    >Connectez vous !
                                     </router-link>
                                 </v-row>
                             </form>
@@ -187,6 +187,7 @@ export default {
             phone: "",
             address: "",
             city: "",
+            avatar: "",
             errors: "",
         };
     },
@@ -202,6 +203,7 @@ export default {
                     phone: this.phone,
                     address: this.address,
                     city: this.city,
+                    avatar: null,
                 });
                 this.$router.push("/login");
                 if (response.data.success) {
