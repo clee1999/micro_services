@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
  */
-#[ApiResource]
+#[ApiResource(attributes: ["pagination_enabled" => false])]
 class TimeSlot
 {
     /**
