@@ -25,7 +25,7 @@ class Reservation
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=TimeSlot::class, inversedBy="reservation", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=TimeSlot::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $slot;

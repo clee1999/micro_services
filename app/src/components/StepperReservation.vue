@@ -46,13 +46,14 @@
                         <v-container>
                             <v-row>
                                 <v-col cols="12">
-                                    <h3>
+                                    <h3 v-if="user">
                                         Vous êtes connecté en tant que
-                                        {{ user.name }}
+                                        {{ user.firstname }}
+                                        {{ user.lastname }}
                                     </h3>
                                 </v-col>
                             </v-row>
-                            <v-row>
+                            <v-row v-if="!user">
                                 <v-col cols="12">
                                     <h3>Pas encore de compte ?</h3>
                                     <button class="buttonCustom">
@@ -62,7 +63,7 @@
                                     </button>
                                 </v-col>
                             </v-row>
-                            <v-row>
+                            <v-row v-if="!user">
                                 <v-col cols="12">
                                     <!-- TODO : pour chacun des boutons, href vers les pages de connexion / inscription -->
                                     <!-- TODO : Display ces boutons si l'user est un invité, si déjà connecté les masqués -->
@@ -83,29 +84,32 @@
                     </v-stepper-content>
 
                     <v-stepper-content step="3">
-                        <v-container>
-                            <v-row class="text-center">
-                                <v-col cols="12">
-                                    <h2>Récapitulatif du rendez-vous</h2>
-                                </v-col>
-                            </v-row>
-                            <v-row class="text-center">
-                                <v-col cols="12">
-                                    <h4>
-                                        {{ user.name }}, vous avez pris un
-                                        rendez-vous pour le :
-                                    </h4>
-                                    <p>Date :</p>
-                                    <p>à l'heure</p>
-                                    <p>Chez le practicien :</p>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-
-                        <v-btn color="primary" @click="e1 = 4">
-                            Continue
-                        </v-btn>
-
+                        <form @submit.prevent="handleSubmit">
+                            <v-container>
+                                <v-row class="text-center">
+                                    <v-col cols="12">
+                                        <h2>Récapitulatif du rendez-vous</h2>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="text-center">
+                                    <v-col cols="12">
+                                        <h4 v-if="user">
+                                            {{ user.name }}, vous avez pris un
+                                            rendez-vous pour le :
+                                        </h4>
+                                        <p>Date :</p>
+                                        <p>à l'heure</p>
+                                        <p>Chez le practicien :</p>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                            <button class="buttonCustom ml-4 mb-3 mr-6">
+                                S'inscrire
+                            </button>
+                            <v-btn color="primary" @click="e1 = 4">
+                                Continue
+                            </v-btn>
+                        </form>
                         <v-btn text> Cancel </v-btn>
                     </v-stepper-content>
 
@@ -136,16 +140,58 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "StepperReservation",
     data() {
         return {
             e1: 1,
-            user: { name: "Joe" },
+            user: null,
+            description: "",
+            patient: "",
+            doctor: null,
             date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
                 .toISOString()
                 .substr(0, 10),
         };
+    },
+    methods: {
+        async handleSubmit() {
+            const id = this.$route.params.id;
+            try {
+                const response = await axios.post("reservations", {
+                    description: "test",
+                    patient: `api/users/${id}`,
+                    doctor: `api/users/${id}`,
+                    slot: this.date,
+                });
+                console.log("ok");
+                if (response.data.success) {
+                    console.log("ok");
+                } else {
+                    this.errors = response.data.message;
+                }
+            } catch (error) {
+                this.errors = error.response.data.message;
+            }
+        },
+        getData() {
+            const id = this.$route.params.id;
+
+            axios.get(`users/${id}`).then((response) => {
+                this.doctor = response.data;
+                console.log(this.doctor);
+            });
+        },
+    },
+    mounted() {
+        this.getData();
+    },
+    async created() {
+        const response = await axios.get("me");
+        this.user = response.data;
+        console.log("The id is: " + this.$route.params.id);
     },
 };
 </script>
