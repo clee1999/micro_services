@@ -8,9 +8,17 @@
                 </v-col>
             </v-row>
             <v-row>
-                <p class="red--text">
-                    {{ result }}
-                </p>
+                <v-alert
+                    color="green"
+                    dense
+                    elevation="11"
+                    type="success"
+                    v-if="result != null"
+                    style="margin-bottom: 20px"
+                >
+                    <v-icon color="white">mdi-check</v-icon>
+                    {{ result }}</v-alert
+                >
             </v-row>
 
             <form @submit.prevent="handleSubmit">
@@ -68,7 +76,6 @@
                     </thead>
                     <tbody>
                         <tr :key="index" v-for="(creneaux, index) in creneaux">
-                            <!-- <p>{{ creneaux }}</p> -->
                             <td v-if="creneaux.doctor == iriDoctor">
                                 {{ creneaux["@id"] }}
                             </td>
@@ -104,7 +111,7 @@ export default {
         justify: ["center"],
         doctor: null,
         user: null,
-        result: "",
+        result: null,
         role: null,
         slotStart: new Date(),
         slotEnd: new Date(),
@@ -150,15 +157,14 @@ export default {
             });
         },
         deleteUser(id) {
-            axios.delete("/users/" + id.slice(11, 13)).then(() => {
+            axios.delete("/time_slots/" + id.split("/")[3]).then(() => {
                 this.getData();
-                this.result = "Vous avez supprimé un docteur";
+                this.result = "Vous avez supprimé un créneaux";
             });
         },
     },
     mounted() {
         this.getData();
-        // this.iriDoctor = "/api/users/" + this.user.id;
     },
     filters: {
         truncate(doctor, num) {
