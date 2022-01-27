@@ -50,18 +50,18 @@ class SlotDataPersister implements ContextAwareDataPersisterInterface
         {
             foreach($interval as $key=>$val)
             {
-                if($key != "i" && $val != 0)
-                {
-                    $errorMessage = "Invalid Slots";
-                    throw new UnauthorizedHttpException($errorMessage, $errorMessage);
-                }
-                else if($key == "i" && $val != 30)
-                {
-                    $errorMessage = "Invalid Slots";
-                    throw new UnauthorizedHttpException($errorMessage, $errorMessage);
-
-                }
-                else{
+//                if($key != "i" && $val != 0)
+//                {
+//                    $errorMessage = "Invalid Slots";
+//                    throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+//                }
+//                else if($key == "i" && $val != 30)
+//                {
+//                    $errorMessage = "Invalid Slots";
+//                    throw new UnauthorizedHttpException($errorMessage, $errorMessage);
+//
+//                }
+//                else{
                     $slots = $this->_entityManager->getRepository(TimeSlot::class)->findBy(['doctor' => $this->security->getUser()->getId()]);
                     foreach($slots as $val)
                     {
@@ -74,7 +74,7 @@ class SlotDataPersister implements ContextAwareDataPersisterInterface
                     $this->_entityManager->persist($data);
                     $this->_entityManager->flush();
                 }
-            }
+//            }
 
         }
         else{

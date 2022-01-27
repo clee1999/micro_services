@@ -4,6 +4,7 @@ import vuetify from "./plugins/vuetify";
 import "./assets/_global.scss";
 import VueRouter from "vue-router";
 import "./axios";
+import DatetimePicker from "vuetify-datetime-picker";
 
 // Les différents components
 import HomePage from "./components/HomePage.vue";
@@ -19,6 +20,7 @@ import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 
 Vue.use(VueRouter);
+Vue.use(DatetimePicker);
 Vue.config.productionTip = false;
 
 const router = new VueRouter({
