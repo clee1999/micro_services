@@ -60,6 +60,6 @@ security:
         - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/users, roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN], methods: [PUT, PATCH, DELETE]  }
-        - { path: ^/api/time_slots, roles: [ROLE_ADMIN, ROLE_DOCTOR,ROLE_USER]  }
+        - { path: ^/api/time_slots, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/resservations, roles: IS_AUTHENTICATED_FULLY }
 
