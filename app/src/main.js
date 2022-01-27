@@ -33,7 +33,7 @@ const router = new VueRouter({
       component: DashboardDoctor,
       children: [{ path: "/gerer-creneaux", component: GestionCreneau }],
     },
-    { path: "/reservation", component: StepperReservation }, // TODO: mettre :id
+    { path: "/reservation/:id", component: StepperReservation }, // TODO: mettre :id
     {
       path: "/mes-rendez-vous",
       component: MesRendezVous,

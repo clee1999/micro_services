@@ -43,8 +43,13 @@ a {
                 <v-col cols="12">
                     <button class="buttonCustom mt-3">
                         <div class="height-fix">
-                            <router-link to="/reservation">
-                                Prendre rendez-vous avec docteur
+                            <router-link
+                                :to="`/reservation/${doctor['@id'].slice(
+                                    11,
+                                    13
+                                )} `"
+                            >
+                                Prendre rendez-vous
                             </router-link>
                         </div>
                     </button>
