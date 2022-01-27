@@ -25,18 +25,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr :key="index" v-for="(doctor, index) in doctor">
+                        <tr
+                            :key="index"
+                            v-for="(reservation, index) in reservations"
+                        >
                             <td>
-                                {{ doctor["@id"] | truncate(26) }}
+                                {{ reservation["@id"] | truncate(26) }}
                             </td>
                             <td>
-                                {{ doctor.description }}
+                                {{ reservation.description }}
                             </td>
                             <td>
-                                {{ doctor.patient }}
+                                {{ reservation.patient }}
                             </td>
                             <td>
-                                {{ doctor.slot }}
+                                {{ reservation.slot }}
                             </td>
                             <td>
                                 <button v-on:click="deleteUser(doctor['@id'])">
@@ -61,12 +64,32 @@ export default {
         user: null,
         result: "",
         role: null,
+        patient: null,
+        reservations: [],
     }),
     methods: {
         getData() {
+            let reservations = [];
             axios.get("/reservations").then((response) => {
                 this.doctor = response.data["hydra:member"];
+                this.doctor.map((reservation) => {
+                    const id = reservation.patient.slice(18, 20);
+                    axios.get(`users/${id}`).then((response) => {
+                        console.log(response);
+                        // reservation.patient = response.data[
+                        //     "hydra:member"
+                        // ].filter(
+                        //     (patient) =>
+                        //         (patient.id = reservation.patient.split("/")[1])
+                        // );
+
+                        reservation.patient = response.data["hydra:member"];
+                        reservations.push(reservation);
+                    });
+                });
             });
+            this.reservations = reservations;
+            console.log(this.reservations);
         },
         deleteUser(id) {
             axios.delete("/reservations/" + id.slice(18, 20)).then(() => {
@@ -96,4 +119,6 @@ export default {
         }
     },
 };
+
+// id: reservation.patient.split("/")[1],
 </script>
