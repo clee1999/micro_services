@@ -35,7 +35,7 @@
                   @change="handleDate"
                 ></v-date-picker>
               </v-row>
-              <v-item-group>
+              <v-item-group mandatory>
                 <v-row id="slots_container">
                   <v-col
                     :key="index"
@@ -44,6 +44,7 @@
                     sm="2"
                   >
                     <v-item
+                      @change="handleSlot(slot)"
                       v-if="
                         slot.available == true &&
                         slot.doctor == iriDoctor &&
@@ -52,27 +53,20 @@
                       v-slot="{ active, toggle }"
                     >
                       <v-card class="d-flex align-center" @click="toggle">
-                        {{ getSlotView(slot) }}
                         <v-scroll-y-transition>
                           <div
                             v-if="active"
-                            class="flex-grow-1 text-center"
-                          ></div>
-                          <div v-else class="flex-grow-1 text-center"></div>
+                            class="flex-grow-1 text-center cyan lighten-4"
+                          >
+                            {{ getSlotView(slot) }}
+                          </div>
+                          <div v-else class="flex-grow-1 text-center">
+                            {{ getSlotView(slot) }}
+                          </div>
                         </v-scroll-y-transition>
                       </v-card>
                     </v-item>
                     <v-item v-else></v-item>
-                    <!-- <button
-                    v-if="
-                      slot.available == true &&
-                      slot.doctor == iriDoctor &&
-                      checkSlot(slot.slotStart, slot.slotEnd) == true
-                    "
-                  >
-                    {{ test() }}
-                    {{ slot.slotStart }}
-                  </button> -->
                   </v-col>
                 </v-row>
               </v-item-group>
@@ -128,18 +122,32 @@
                 <v-row class="text-center">
                   <v-col cols="12">
                     <h4 v-if="user">
-                      {{ user.name }}, vous avez pris un rendez-vous pour le :
+                      {{ user.firstname }} {{ user.lastname }}, vous avez pris
+                      un rendez-vous pour le :
                     </h4>
-                    <p>Date :</p>
-                    <p>à l'heure</p>
-                    <p>Chez le practicien :</p>
+                    <p v-if="selectedDate != null">Date : {{ selectedDate }}</p>
+                    <p v-if="selectedSlot != null">
+                      à l'heure {{ displayHourMinute(selectedSlot.slotStart) }}
+                    </p>
+                    <p v-if="selectedSlot != null">
+                      Chez le practicien : {{ doctorName }}
+                    </p>
+                    <v-textarea
+                      outlined
+                      v-model="description"
+                      name="description"
+                      label="Description"
+                      value=""
+                    ></v-textarea>
                   </v-col>
                 </v-row>
               </v-container>
-              <button class="buttonCustom ml-4 mb-3 mr-6">S'inscrire</button>
-              <v-btn color="primary" @click="e1 = 4"> Continue </v-btn>
+              <!-- <button class="buttonCustom ml-4 mb-3 mr-6">S'inscrire</button> -->
+              <v-btn color="primary" type="submit" @click="e1 = 4">
+                Continue
+              </v-btn>
+              <v-btn text> Cancel </v-btn>
             </form>
-            <v-btn text> Cancel </v-btn>
           </v-stepper-content>
 
           <v-stepper-content step="4">
@@ -175,9 +183,11 @@ export default {
       user: null,
       iriDoctor: null,
       selectedDate: null,
+      selectedSlot: null,
       description: "",
       patient: "",
       doctor: null,
+      doctorName: null,
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
@@ -185,19 +195,43 @@ export default {
     };
   },
   methods: {
+    async getDoctorJson() {
+      let id = this.$route.params.id;
+      await axios
+        .get(`users/${id}`)
+        .then((result) => {
+          console.log(result);
+          this.doctorName =
+            "Dr. " + result.data.firstname + " " + result.data.lastname;
+
+          // this.slots = result.data["hydra:member"];
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    displayHourMinute(d) {
+      let date = new Date(d);
+      return (
+        String(date.getHours()).padStart(2, "0") +
+        ":" +
+        String(date.getMinutes()).padStart(2, "0")
+      );
+    },
+    handleSlot(slot) {
+      this.selectedSlot = slot;
+    },
     getSlotView(slot) {
-      console.log(slot);
       let start = new Date(slot.slotStart);
       let end = new Date(slot.slotEnd);
-      console.log(start);
       return (
-        start.getHours() +
+        String(start.getHours()).padStart(2, "0") +
         ":" +
-        start.getMinutes() +
+        String(start.getMinutes()).padStart(2, "0") +
         " - " +
-        end.getHours() +
+        String(end.getHours()).padStart(2, "0") +
         ":" +
-        end.getMinutes()
+        String(end.getMinutes()).padStart(2, "0")
       );
     },
     checkSlot(slots, slote) {
@@ -212,12 +246,14 @@ export default {
     },
     async handleSubmit() {
       const id = this.$route.params.id;
+      const idSlot = this.selectedSlot.id;
+      this.selectedSlot.available = false;
       try {
         const response = await axios.post("reservations", {
-          description: "test",
-          patient: `api/users/${id}`,
+          description: this.description,
+          patient: `api/users/${this.user.id}`,
           doctor: `api/users/${id}`,
-          slot: this.date,
+          slot: `api/time_slots/${idSlot}`,
         });
         console.log("ok");
         if (response.data.success) {
@@ -258,8 +294,8 @@ export default {
 
       axios.get(`users/${id}`).then((response) => {
         this.doctor = response.data;
-        console.log(this.doctor);
       });
+      this.getDoctorJson();
     },
   },
   mounted() {
