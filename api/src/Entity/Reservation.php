@@ -5,11 +5,29 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"reservation_read"}}
+ *          },
+ *          "post"
+ *      },
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"reservation_details_read"}}
+ *          },
+ *          "put",
+ *          "patch",
+ *          "delete"
+ *     }
+
+ * )
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
  */
-#[ApiResource]
+
 class Reservation
 {
     /**
@@ -21,24 +39,28 @@ class Reservation
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"reservation_read", "reservation_details_read"})
      */
     private $description;
 
     /**
      * @ORM\OneToOne(targetEntity=TimeSlot::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"reservation_read", "reservation_details_read"})
      */
     private $slot;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservationPatient")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"reservation_read", "reservation_details_read"})
      */
     private $patient;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="doctorReservation")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"reservation_read", "reservation_details_read"})
      */
     private $doctor;
 

@@ -13,6 +13,9 @@
                 <router-link to="/gerer-creneaux">
                     Gérer les créneaux
                 </router-link>
+                <router-link to="/voir-rendez-vous">
+                    Voir les rendez-vous
+                </router-link>
             </v-row>
             <v-main>
                 <router-view></router-view>
