@@ -131,6 +131,7 @@ export default {
         },
         available: "",
         creneaux: "",
+        iriDoctor: null,
     }),
     methods: {
         async handleSubmit() {
