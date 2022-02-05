@@ -135,12 +135,15 @@ export default {
     methods: {
         async handleSubmit() {
             try {
-                const response = await axios.post("/time_slots", {
-                    slotStart: this.slotStart,
-                    slotEnd: this.slotEnd,
-                    available: true,
-                    doctor: "/api/users/" + this.user.id,
-                });
+                const response = await axios.post(
+                    "http://localhost:8001/api/time_slots",
+                    {
+                        slotStart: this.slotStart,
+                        slotEnd: this.slotEnd,
+                        available: true,
+                        doctor: "/api/users/" + this.user.id,
+                    }
+                );
                 if (response.data.success) {
                     console.log(response);
                 } else {
@@ -152,15 +155,21 @@ export default {
             }
         },
         getData() {
-            axios.get("/time_slots").then((response) => {
-                this.creneaux = response.data["hydra:member"];
-            });
+            axios
+                .get("http://localhost:8001/api/time_slots")
+                .then((response) => {
+                    this.creneaux = response.data["hydra:member"];
+                });
         },
         deleteUser(id) {
-            axios.delete("/time_slots/" + id.split("/")[3]).then(() => {
-                this.getData();
-                this.result = "Vous avez supprimé un créneaux";
-            });
+            axios
+                .delete(
+                    "http://localhost:8001/api/time_slots/" + id.split("/")[3]
+                )
+                .then(() => {
+                    this.getData();
+                    this.result = "Vous avez supprimé un créneaux";
+                });
         },
     },
     mounted() {
