@@ -19,6 +19,8 @@ import MesRendezVous from "./components/MesRendezVous.vue";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 
+import TestVueMik from "./components/Vuemik/TestVueMik.vue";
+
 Vue.use(VueRouter);
 Vue.use(DatetimePicker);
 Vue.config.productionTip = false;
@@ -45,6 +47,7 @@ const router = new VueRouter({
     },
     { path: "/login", component: LoginPage },
     { path: "/register", component: RegisterPage },
+    { path: "/vuemik", component: TestVueMik },
   ],
 });
 new Vue({
