@@ -2,16 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\MeController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\MeController;
-use App\Controller\CreateUser;
 
 /**
  * @ApiResource(
@@ -37,7 +36,6 @@ use App\Controller\CreateUser;
  *          "patch",
  *          "delete"
  *     }
-
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -131,6 +129,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $descriptionDoctor;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"user_read", "user_details_read"})
+     */
+    public ?Image $image = null;
+
     public function __construct()
     {
         $this->timeSlots = new ArrayCollection();
@@ -162,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -170,7 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
