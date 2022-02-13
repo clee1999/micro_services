@@ -3,25 +3,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Image;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-#[AsController]
-final class CreateImageAction extends AbstractController
+class CreateImageAction
 {
-    public function __invoke(Request $request): Image
+    public function __invoke(Request $request)
     {
-        $uploadedFile = $request->files->get('file');
-        if (!$uploadedFile) {
-            throw new BadRequestHttpException('"file" is required');
+        $user = $request->attributes->get('data');
+        if (!($user instanceof User)) {
+            throw new \RuntimeException('Utilisateur non renseigné');
         }
-
-        $Image = new Image();
-        $Image->file = $uploadedFile;
-
-        return $Image;
+        $file = $request->files->get('file');
+        $user->setFile($request->files->get('file'));
+        return $user;
     }
 }

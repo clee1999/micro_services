@@ -3,16 +3,20 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\CreateImageAction;
 use App\Controller\MeController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
+ * @Vich\Uploadable()
  * @ApiResource(
  *     collectionOperations={
  *          "get"={
@@ -34,8 +38,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          },
  *          "put",
  *          "patch",
- *          "delete"
- *     }
+ *          "delete",
+ *          "image"={
+ *              "method"="POST",
+ *              "path"="/users/{id}/image",
+ *              "deserialize"=false,
+ *              "controller"=CreateImageAction::class
+ *          },
+ *     },
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -130,11 +140,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $descriptionDoctor;
 
     /**
-     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     * @Groups({"user_read", "user_details_read"})
+     * @var File|null
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="filePath")
      */
-    public ?Image $image = null;
+    private $file;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[Groups(["user_details_read"])]
+    private $filePath;
+
 
     public function __construct()
     {
@@ -417,4 +433,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(?string $filePath): self
+    {
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param File|null $file
+     * @return User
+     */
+    public function setFile(?File $file): User
+    {
+        $this->file = $file;
+        return $this;
+    }
+
 }
