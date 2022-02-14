@@ -20,6 +20,7 @@ import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 
 import TestVueMik from "./components/Vuemik/TestVueMik.vue";
+import MesInfos from "./components/MesInfos";
 
 Vue.use(VueRouter);
 Vue.use(DatetimePicker);
@@ -28,26 +29,27 @@ Vue.config.productionTip = false;
 const router = new VueRouter({
   mode: "history",
   routes: [
-    { path: "/", component: HomePage },
-    { path: "/recherche", component: SearchDoctor },
-    { path: "/docteur/:id", component: DoctorFiche, name: "doctor" },
-    { path: "/admin", component: Dashboard },
+    {path: "/", component: HomePage},
+    {path: "/recherche", component: SearchDoctor},
+    {path: "/docteur/:id", component: DoctorFiche, name: "doctor"},
+    {path: "/admin", component: Dashboard},
     {
       path: "/doctor",
       component: DashboardDoctor,
       children: [
-        { path: "/gerer-creneaux", component: GestionCreneau },
-        { path: "/voir-rendez-vous", component: VoirRendezVous },
+        {path: "/gerer-creneaux", component: GestionCreneau},
+        {path: "/voir-rendez-vous", component: VoirRendezVous},
       ],
     },
-    { path: "/reservation/:id", component: StepperReservation }, // TODO: mettre :id
+    {path: "/reservation/:id", component: StepperReservation}, // TODO: mettre :id
     {
       path: "/mes-rendez-vous",
       component: MesRendezVous,
     },
-    { path: "/login", component: LoginPage },
-    { path: "/register", component: RegisterPage },
-    { path: "/vuemik", component: TestVueMik },
+    {path: "/login", component: LoginPage},
+    {path: "/register", component: RegisterPage},
+    {path: "/vuemik", component: TestVueMik},
+    {path: "/profile", component: MesInfos},
   ],
 });
 new Vue({
