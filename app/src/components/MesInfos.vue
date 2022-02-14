@@ -72,7 +72,7 @@ export default {
     methods: {
         async handleSubmit() {
             try {
-                const response = await axios.patch(`users/${id}/image`, {
+                const response = await axios.post(`users/me/image`, {
                     image: this.image
                 });
                 console.log(response);

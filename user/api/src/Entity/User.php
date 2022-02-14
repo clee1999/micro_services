@@ -41,7 +41,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *          "delete",
  *          "image"={
  *              "method"="POST",
- *              "path"="/users/{id}/image",
+ *              "path"="/users/me/image",
  *              "deserialize"=false,
  *              "controller"=CreateImageAction::class
  *          },
