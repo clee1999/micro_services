@@ -37,21 +37,21 @@
                             :key="index"
                             v-for="(reservation, index) in reservations"
                         >
-                            <td v-if="reservation.doctor == iriDoctor">
+                            <td>
                                 {{ reservation["@id"] | truncate(26) }}
                             </td>
-                            <td v-if="reservation.doctor == iriDoctor">
+                            <td>
                                 {{ reservation.description }}
                             </td>
-                            <td v-if="reservation.doctor == iriDoctor">
+                            <td>
                                 {{ reservation.patient.data.firstname }}
                                 {{ reservation.patient.data.lastname }}
                             </td>
-                            <td v-if="reservation.doctor == iriDoctor">
+                            <td>
                                 {{ getSlotDate(reservation.slot.data) }}
                                 {{ getSlotView(reservation.slot.data) }}
                             </td>
-                            <td v-if="reservation.doctor == iriDoctor">
+                            <td>
                                 <button
                                     v-on:click="deleteReservation(reservation)"
                                 >
@@ -78,7 +78,6 @@ export default {
         role: null,
         patient: null,
         reservations: [],
-        iriDoctor: null,
     }),
     methods: {
         getSlotDate(slot) {
@@ -123,8 +122,19 @@ export default {
                             .catch((err) => {
                                 console.log(err);
                             });
-                        this.reservations.push(reservation);
-                        console.log(reservation);
+                        axios
+                            .get("me")
+                            .then((result) => {
+                                if (
+                                    result.data.id ==
+                                    reservation.doctor.split("/")[3]
+                                ) {
+                                    this.reservations.push(reservation);
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
                     });
                 });
             //   this.reservations = reservations;
@@ -161,7 +171,6 @@ export default {
     async created() {
         const response = await axios.get("me");
         this.user = response.data;
-        this.iriDoctor = "/api/users/" + this.user.id;
     },
     async beforeCreate() {
         const response = await axios.get("me");
